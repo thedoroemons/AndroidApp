@@ -3,20 +3,24 @@ package jp.co.spajam.androidapp.broadcastreceiver;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Vibrator;
 import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
+import jp.co.spajam.androidapp.R;
 import jp.co.spajam.androidapp.data.Job;
 import jp.co.spajam.androidapp.fragment.PetModeFragment;
 
 public class OnReceiveJobBroadcastReceiver extends BroadcastReceiver {
 
     private PetModeFragment petModeFragment;
+    MediaPlayer mp = null;
 
     public OnReceiveJobBroadcastReceiver(PetModeFragment petModeFragment){
         this.petModeFragment = petModeFragment;
@@ -44,6 +48,22 @@ public class OnReceiveJobBroadcastReceiver extends BroadcastReceiver {
                 case Job.VOICE_JOB_ID:
                     // TODO 音を鳴らす
                     Log.d("job","音を鳴らす");
+                    //音声再生
+                    mp = MediaPlayer.create(petModeFragment.getActivity(), R.raw.sound);
+
+                    if (mp.isPlaying()) { //再生中
+                        mp.stop();
+                        try {
+                            mp.prepare();
+                        } catch (IllegalStateException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    else { //停止中
+                        mp.start();
+                    }
                     break;
             }
         }

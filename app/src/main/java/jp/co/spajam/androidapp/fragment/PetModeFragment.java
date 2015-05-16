@@ -67,13 +67,14 @@ public class PetModeFragment extends Fragment {
         //Vibrator vibrator = (Vibrator)getActivity().getSystemService(Context.VIBRATOR_SERVICE);
         //vibrator.vibrate(10);
 
-        Vibrator vibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
-        long[] pattern = {300, 1000, 200, 1000, 300, 1000}; // OFF/ON/OFF/ON...
-        vibrator.vibrate(pattern, -1);
+        //Vibrator vibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+        //long[] pattern = {300, 1000, 200, 1000, 300, 1000}; // OFF/ON/OFF/ON...
+        //vibrator.vibrate(pattern, -1);
         //バイブ
 
+        /*
         //音声再生
-        mp = MediaPlayer.create(getActivity(), R.raw.sound);
+        //mp = MediaPlayer.create(getActivity(), R.raw.sound);
 
         if (mp.isPlaying()) { //再生中
             mp.stop();
@@ -86,8 +87,9 @@ public class PetModeFragment extends Fragment {
             }
         }
         else { //停止中
-            mp.start();
+            //mp.start();
         }
         //音声再生
+        */
     }
 }
