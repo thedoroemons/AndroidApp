@@ -1,17 +1,58 @@
 package jp.co.spajam.androidapp;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.support.annotation.IdRes;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import jp.co.spajam.androidapp.fragment.DefaultFragment;
+import jp.co.spajam.androidapp.fragment.HumanModeFragment;
+import jp.co.spajam.androidapp.fragment.PetModeFragment;
 
-public class MainActivity extends ActionBarActivity {
+
+public class MainActivity extends ActionBarActivity implements DefaultFragment.OnClickListener {
+
+    private DefaultFragment defaultFragment;
+    private HumanModeFragment humanModeFragment;
+    private PetModeFragment petModeFragment;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        defaultFragment = new DefaultFragment();
+        humanModeFragment = new HumanModeFragment();
+        petModeFragment = new PetModeFragment();
+
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.add(R.id.base_layout, defaultFragment, "defaultFragment");
+        transaction.commit();
+
+
+    }
+
+    @Override
+    public void onClickMode(@IdRes int id) {
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        if(null != transaction) {
+            switch (id){
+                case R.id.humanbtn:
+                    transaction.replace(R.id.base_layout,humanModeFragment);
+                    break;
+                case R.id.petbtn:
+                    transaction.replace(R.id.base_layout,petModeFragment);
+                    break;
+                default:
+                    transaction.replace(R.id.base_layout,defaultFragment);
+                    break;
+            }
+            transaction.commit();
+        }
     }
 
     @Override
