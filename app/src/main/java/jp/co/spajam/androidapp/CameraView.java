@@ -3,6 +3,7 @@ package jp.co.spajam.androidapp;
 import android.content.Context;
 import android.hardware.Camera;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -17,13 +18,11 @@ import java.util.Date;
  */
 public class CameraView extends SurfaceView
         implements SurfaceHolder.Callback, Camera.PictureCallback {
+
+
     private SurfaceHolder holder = null;
     private Camera camera = null;
     private static final String SDCARD_FOLDER = "/sdcard/CameraSample/";
-
-    //MyTimerTask timerTask = null;
-    //Timer   mTimer   = null;
-    //Handler mHandler = new Handler();
 
     public void takePicture(){
         camera.takePicture(null, null, CameraView.this);
@@ -41,11 +40,6 @@ public class CameraView extends SurfaceView
         if(!dirs.exists()) {
             dirs.mkdir();
         }
-
-//        //タイマーの初期化処理
-//        timerTask = new MyTimerTask();
-//        mTimer = new Timer(true);
-//        mTimer.schedule( timerTask, 0, 3000);
 
     }
 
@@ -85,6 +79,23 @@ public class CameraView extends SurfaceView
         }
     }
 
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        // TODO Auto-generated method stub
+        if(event.getAction() == MotionEvent.ACTION_DOWN) {
+
+            //パラメータ取得
+            Camera.Parameters params = camera.getParameters();
+            //フラッシュモードを点灯に設定
+            params.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+            //パラメータ設定
+            camera.setParameters(params);
+
+        }
+        return true;
+    }
+
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         // TODO Auto-generated method stub
@@ -120,24 +131,6 @@ public class CameraView extends SurfaceView
         camera.stopPreview();
         camera.release();
         camera = null;
-//        mTimer.cancel();
-//        mTimer=null;
     }
-
-//    // タイマータスク用のクラス
-//    class MyTimerTask extends TimerTask {
-//
-//        @Override
-//        public void run() {
-//            mHandler.post( new Runnable() {
-//                public void run() {
-//                    if(mTimer == null){
-//                        return;
-//                    }
-//                    camera.takePicture(null, null, CameraView.this);
-//                }
-//            });
-//        }
-//    }
 
 }
