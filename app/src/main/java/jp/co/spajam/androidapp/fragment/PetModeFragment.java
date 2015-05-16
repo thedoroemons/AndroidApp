@@ -86,7 +86,7 @@ public class PetModeFragment extends Fragment {
             }
         }
         else { //停止中
-            //mp.start();
+            mp.start();
         }
         //音声再生
     }
