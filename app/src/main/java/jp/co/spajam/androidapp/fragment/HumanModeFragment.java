@@ -1,11 +1,9 @@
 package jp.co.spajam.androidapp.fragment;
 
 import android.app.Activity;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.annotation.IdRes;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +31,7 @@ import jp.co.spajam.androidapp.PostJob;
 import jp.co.spajam.androidapp.R;
 import jp.co.spajam.androidapp.data.Job;
 import jp.co.spajam.androidapp.Util;
-import twitter.TwitterManager;
+import jp.co.spajam.androidapp.twitter.TwitterManager;
 
 public class HumanModeFragment extends Fragment {
 

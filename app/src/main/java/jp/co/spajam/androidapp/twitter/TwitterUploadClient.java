@@ -1,4 +1,4 @@
-package twitter;
+package jp.co.spajam.androidapp.twitter;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
