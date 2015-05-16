@@ -107,7 +107,7 @@ public class SensorMonitor implements SensorEventListener{
             float roll = radianToDegree(orientationValues[2]); //奥軸時計回り回転（９時の向き:-90度、３時の向き:90度
 
             // スマホの向きが取れる
-            Log.d("sensor roll","azmuth:" + azmuth + " \tpitch:" + pitch + " \troll:" + roll);
+            //Log.d("sensor roll","azmuth:" + azmuth + " \tpitch:" + pitch + " \troll:" + roll);
         }
 
         if( event.sensor.getType() == Sensor.TYPE_ACCELEROMETER ){
@@ -117,7 +117,7 @@ public class SensorMonitor implements SensorEventListener{
             double accValue = Math.sqrt(accX * accX + accY * accY + accZ * accZ);
 
             // スマホの加速度が取れる(重力加速度込み)
-            Log.d("sensor acc","accX:" + accX + " \taccY:" + accY + " \taccZ:" + accZ + " \taccValue:" + accValue);
+            //Log.d("sensor acc","accX:" + accX + " \taccY:" + accY + " \taccZ:" + accZ + " \taccValue:" + accValue);
         }
 
         if ( event.sensor.getType() == Sensor.TYPE_GYROSCOPE ){
@@ -127,7 +127,7 @@ public class SensorMonitor implements SensorEventListener{
             double gyroValue = Math.sqrt(gyroX*gyroX + gyroY*gyroY + gyroZ*gyroZ);
 
             // スマホの回転加速度が取れる
-            Log.d("sensor gyro","gyroX:" + gyroX + " \tgyroY:" + gyroY + " \tgyroZ:" + gyroZ + " \tgyroValue:" + gyroValue);
+            //Log.d("sensor gyro","gyroX:" + gyroX + " \tgyroY:" + gyroY + " \tgyroZ:" + gyroZ + " \tgyroValue:" + gyroValue);
 
             if ( gyroValue > 7.5 ){
                 callback.onRotate( new Rotate(gyroValues, gyroValue, Rotate.FAST) );
