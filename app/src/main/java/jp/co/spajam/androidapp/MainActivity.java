@@ -16,7 +16,6 @@ import android.view.MenuItem;
 import jp.co.spajam.androidapp.fragment.DefaultFragment;
 import jp.co.spajam.androidapp.fragment.HumanModeFragment;
 import jp.co.spajam.androidapp.fragment.PetModeFragment;
-import jp.co.spajam.androidapp.fragment.SettingFragment;
 
 
 public class MainActivity extends ActionBarActivity implements DefaultFragment.OnClickListener {
@@ -24,7 +23,6 @@ public class MainActivity extends ActionBarActivity implements DefaultFragment.O
     private DefaultFragment defaultFragment;
     private HumanModeFragment humanModeFragment;
     private PetModeFragment petModeFragment;
-    private SettingFragment mSettingFragment;
 
 
     private OnRotateBroadcastReceiver onRotateBroadcastReceiver;
@@ -37,7 +35,6 @@ public class MainActivity extends ActionBarActivity implements DefaultFragment.O
         defaultFragment = new DefaultFragment();
         humanModeFragment = new HumanModeFragment();
         petModeFragment = new PetModeFragment();
-        mSettingFragment = new SettingFragment();
 
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.add(R.id.base_layout, defaultFragment, "defaultFragment");
