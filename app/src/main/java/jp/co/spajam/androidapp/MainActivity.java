@@ -1,20 +1,15 @@
 package jp.co.spajam.androidapp;
 
-import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.support.annotation.IdRes;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.hardware.SensorManager;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.annotation.IdRes;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-
 
 import jp.co.spajam.androidapp.fragment.DefaultFragment;
 import jp.co.spajam.androidapp.fragment.HumanModeFragment;
@@ -69,6 +64,7 @@ public class MainActivity extends ActionBarActivity implements DefaultFragment.O
                 default:
                     transaction.replace(R.id.base_layout, defaultFragment);
                     break;
+
             }
             transaction.addToBackStack(null);
             transaction.commit();
