@@ -4,15 +4,20 @@ import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 
 public class CameraActivity extends Activity {
+
+    public static final String ACTION_ROTATE = "ACTION_MOVE";
+    public static final String EXTRA_ROTATE =  "EXTRA_MOVE";
+
+    CameraView cameraView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,17 +27,29 @@ public class CameraActivity extends Activity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         // requestWindowFeature(Window.FEATURE_NO_TITLE);
         // カメラ用ビューの設定
-        setContentView(new CameraView(this));
-        //IntentFilter intentFilter = new IntentFilter("MY_SPECIFIC_ACTION");
-        //registerReceiver(receiver)
+        setContentView(cameraView = new CameraView(this));
+        IntentFilter intentFilter = new IntentFilter(ACTION_ROTATE);
+        registerReceiver(receiver,intentFilter);
 
     }
 
     private BroadcastReceiver receiver = new BroadcastReceiver() {
+
+        private int count = 0;
+
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.d("Test","TEST");
-            Toast.makeText(getApplicationContext(), "received", Toast.LENGTH_SHORT);
+            int type = intent.getIntExtra(EXTRA_ROTATE, -1);
+            Log.d("Test","TEST" + type);
+            if(type == Rotate.FAST){
+                count++;
+                Log.d("Test","COUNT" + count);
+                if(count >= 10){
+                    cameraView.takePicture();
+                    count = 0;
+
+                }
+            }
         }
     };
 

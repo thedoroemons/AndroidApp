@@ -1,14 +1,12 @@
 package jp.co.spajam.androidapp;
 
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,7 +16,7 @@ import jp.co.spajam.androidapp.fragment.HumanModeFragment;
 import jp.co.spajam.androidapp.fragment.PetModeFragment;
 
 
-public class MainActivity extends ActionBarActivity implements DefaultFragment.OnClickListener {
+public class MainActivity extends ActionBarActivity implements DefaultFragment.OnClickListener,HumanModeFragment.OnClickListener {
 
     private DefaultFragment defaultFragment;
     private HumanModeFragment humanModeFragment;
@@ -98,10 +96,6 @@ public class MainActivity extends ActionBarActivity implements DefaultFragment.O
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
-    }
-
-    public void onRotate(float[] gyrovalues,int speed){
-        Log.d("Main", "onRotate:" + speed);
     }
 
     @Override

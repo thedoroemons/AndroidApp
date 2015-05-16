@@ -2,7 +2,6 @@ package jp.co.spajam.androidapp;
 
 import android.content.Context;
 import android.hardware.Camera;
-import android.os.Handler;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -13,8 +12,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * Created by masaharu on 2015/05/16.
@@ -25,9 +22,13 @@ public class CameraView extends SurfaceView
     private Camera camera = null;
     private static final String SDCARD_FOLDER = "/sdcard/CameraSample/";
 
-    MyTimerTask timerTask = null;
-    Timer   mTimer   = null;
-    Handler mHandler = new Handler();
+    //MyTimerTask timerTask = null;
+    //Timer   mTimer   = null;
+    //Handler mHandler = new Handler();
+
+    public void takePicture(){
+        camera.takePicture(null, null, CameraView.this);
+    }
 
 
     public CameraView(Context context) {
@@ -42,17 +43,10 @@ public class CameraView extends SurfaceView
             dirs.mkdir();
         }
 
-        //タイマーの初期化処理
-        timerTask = new MyTimerTask();
-        mTimer = new Timer(true);
-        mTimer.schedule( timerTask, 0, 3000);
-
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                camera.takePicture(null,null,CameraView.this);
-//            }
-//        }, 5000);
+//        //タイマーの初期化処理
+//        timerTask = new MyTimerTask();
+//        mTimer = new Timer(true);
+//        mTimer.schedule( timerTask, 0, 3000);
 
     }
 
@@ -96,7 +90,15 @@ public class CameraView extends SurfaceView
     public boolean onTouchEvent(MotionEvent event) {
         // TODO Auto-generated method stub
         if(event.getAction() == MotionEvent.ACTION_DOWN) {
-            camera.takePicture(null, null, this);
+            //camera.takePicture(null, null, this);
+
+            //パラメータ取得
+            Camera.Parameters params = camera.getParameters();
+            //フラッシュモードを点灯に設定
+            params.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+            //パラメータ設定
+            camera.setParameters(params);
+
         }
         return true;
     }
@@ -136,25 +138,24 @@ public class CameraView extends SurfaceView
         camera.stopPreview();
         camera.release();
         camera = null;
-        mTimer.cancel();
-        mTimer=null;
+//        mTimer.cancel();
+//        mTimer=null;
     }
 
-    // タイマータスク用のクラス
-    class MyTimerTask extends TimerTask {
-
-        @Override
-        public void run() {
-            mHandler.post( new Runnable() {
-                public void run() {
-                    Log.d("test", "test");
-                    if(mTimer == null){
-                        return;
-                    }
-                    camera.takePicture(null, null, CameraView.this);
-                }
-            });
-        }
-    }
+//    // タイマータスク用のクラス
+//    class MyTimerTask extends TimerTask {
+//
+//        @Override
+//        public void run() {
+//            mHandler.post( new Runnable() {
+//                public void run() {
+//                    if(mTimer == null){
+//                        return;
+//                    }
+//                    camera.takePicture(null, null, CameraView.this);
+//                }
+//            });
+//        }
+//    }
 
 }
