@@ -81,8 +81,11 @@ public class CameraView extends SurfaceView
         // String imageBinary = "data:image/jpeg;base64,"+image64;
 
         // 画像付きツイート送信
-        sendImageTweet(image64);
-
+        try {
+            sendImageTweet(image64);
+        }catch (Exception e){
+            //認証が済んでいない
+        }
 
         // TODO Auto-generated method stub
         SimpleDateFormat date = new SimpleDateFormat("yyyyMMdd_kkmmss");
