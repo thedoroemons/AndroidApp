@@ -33,4 +33,12 @@
         android:layout_centerHorizontal="true"
         android:layout_above="@+id/humanbtn" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="設定"
+        android:id="@+id/settingbtn"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/humanbtn" />
+
 </RelativeLayout>

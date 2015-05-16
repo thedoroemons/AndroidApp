@@ -42,6 +42,16 @@ public class DefaultFragment extends Fragment {
             }
         });
 
+        Button settingBtn = (Button)view.findViewById(R.id.settingbtn);
+        settingBtn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity(), "SettingMode!", Toast.LENGTH_SHORT).show();
+                listener.onClickMode(v.getId());
+            }
+        });
+
 
         return view;
     }
