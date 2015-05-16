@@ -88,6 +88,7 @@ public class MainActivity extends ActionBarActivity implements DefaultFragment.O
     protected void onDestroy(){
         super.onDestroy();
         stopService(new Intent(this, SensorService.class));
+        unregisterReceiver(onRotateBroadcastReceiver);
     }
 
     @Override
