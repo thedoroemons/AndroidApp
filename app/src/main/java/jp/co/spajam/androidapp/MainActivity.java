@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.support.v7.app.ActionBarActivity;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,6 +41,7 @@ public class MainActivity extends ActionBarActivity implements DefaultFragment.O
 
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.add(R.id.base_layout, defaultFragment, "defaultFragment");
+        transaction.addToBackStack(null);
         transaction.commit();
 
         // センサー取得開始
@@ -68,8 +70,21 @@ public class MainActivity extends ActionBarActivity implements DefaultFragment.O
                     transaction.replace(R.id.base_layout, defaultFragment);
                     break;
             }
+            transaction.addToBackStack(null);
             transaction.commit();
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        // Disable Back key
+        getFragmentManager().popBackStack();
+
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            return false;
+        }
+
+        return super.onKeyDown(keyCode, event);
     }
 
     protected void onDestroy(){
