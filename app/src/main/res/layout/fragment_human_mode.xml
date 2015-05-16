@@ -1,32 +1,43 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/inu"
     tools:context="jp.co.spajam.androidapp.fragment.HumanModeFragment">
 
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="btn_light"
-        android:id="@+id/btn_light"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="110dp" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="btn_voice"
-        android:id="@+id/btn_voice"
-        android:layout_below="@+id/btn_light"
-        android:layout_alignParentStart="true" />
+        <Button
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:text=""
+            android:layout_margin="10dp"
+            android:id="@+id/btn_voice"
+            android:background="@drawable/voice"
+            android:layout_below="@+id/btn_light"
+           />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="btn_vib"
-        android:id="@+id/btn_vib"
-        android:layout_alignTop="@+id/btn_voice"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="106dp" />
+        <Button
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_margin="10dp"
+            android:text=""
+            android:background="@drawable/vib"
+            android:id="@+id/btn_vib"
+             />
+
+        <Button
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:text=""
+            android:layout_margin="10dp"
+            android:background="@drawable/light"
+            android:id="@+id/btn_light"
+             />
+    </LinearLayout>
 </RelativeLayout>
