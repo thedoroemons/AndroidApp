@@ -1,5 +1,7 @@
 package jp.co.spajam.androidapp;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -14,6 +16,7 @@ import android.view.MenuItem;
 import jp.co.spajam.androidapp.fragment.DefaultFragment;
 import jp.co.spajam.androidapp.fragment.HumanModeFragment;
 import jp.co.spajam.androidapp.fragment.PetModeFragment;
+import jp.co.spajam.androidapp.fragment.SettingFragment;
 
 
 public class MainActivity extends ActionBarActivity implements DefaultFragment.OnClickListener {
@@ -21,6 +24,7 @@ public class MainActivity extends ActionBarActivity implements DefaultFragment.O
     private DefaultFragment defaultFragment;
     private HumanModeFragment humanModeFragment;
     private PetModeFragment petModeFragment;
+    private SettingFragment mSettingFragment;
 
 
     private OnRotateBroadcastReceiver onRotateBroadcastReceiver;
@@ -33,6 +37,7 @@ public class MainActivity extends ActionBarActivity implements DefaultFragment.O
         defaultFragment = new DefaultFragment();
         humanModeFragment = new HumanModeFragment();
         petModeFragment = new PetModeFragment();
+        mSettingFragment = new SettingFragment();
 
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.add(R.id.base_layout, defaultFragment, "defaultFragment");
@@ -60,6 +65,9 @@ public class MainActivity extends ActionBarActivity implements DefaultFragment.O
                     break;
                 case R.id.petbtn:
                     transaction.replace(R.id.base_layout, petModeFragment);
+                    break;
+                case R.id.settingbtn:
+                    transaction.replace(R.id.base_layout, mSettingFragment, SettingFragment.class.getSimpleName());
                     break;
                 default:
                     transaction.replace(R.id.base_layout, defaultFragment);
@@ -96,7 +104,7 @@ public class MainActivity extends ActionBarActivity implements DefaultFragment.O
     }
 
     public void onRotate(float[] gyrovalues,int speed){
-        Log.d("Main","onRotate:"+speed);
+        Log.d("Main", "onRotate:" + speed);
     }
 
     @Override
@@ -112,5 +120,16 @@ public class MainActivity extends ActionBarActivity implements DefaultFragment.O
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        Fragment fragment = getFragmentManager().findFragmentByTag(SettingFragment.class.getSimpleName());
+
+        if (fragment != null) {
+            fragment.onActivityResult(requestCode, resultCode, data);
+        }
     }
 }
