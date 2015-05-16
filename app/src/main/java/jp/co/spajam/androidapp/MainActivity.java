@@ -17,7 +17,7 @@ import jp.co.spajam.androidapp.fragment.PetModeFragment;
 import jp.co.spajam.androidapp.fragment.SettingFragment;
 
 
-public class MainActivity extends ActionBarActivity implements DefaultFragment.OnClickListener {
+public class MainActivity extends ActionBarActivity implements DefaultFragment.OnClickListener,HumanModeFragment.OnClickListener {
 
     private DefaultFragment defaultFragment;
     private HumanModeFragment humanModeFragment;
