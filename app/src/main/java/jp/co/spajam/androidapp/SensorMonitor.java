@@ -13,6 +13,7 @@ import java.util.List;
  */
 public class SensorMonitor implements SensorEventListener{
     private SensorManager sensorManager;
+    private OnRotate callback;
 
     //センサーのリスナーを登録したのでアプリ終了時に消すかどうか
     private boolean isMagSensor;
@@ -33,9 +34,11 @@ public class SensorMonitor implements SensorEventListener{
 
     /**
      * コンストラクタ
+     * @param callback 回転したときに呼ぶ
      * @param sensorManager メインアクティビティなどで(SensorManager) getSystemService(SENSOR_SERVICE)で撮ってきて渡す
      */
-    public SensorMonitor(SensorManager sensorManager){
+    public SensorMonitor(OnRotate callback,SensorManager sensorManager){
+        this.callback = callback;
         this.sensorManager = sensorManager;
 
         // センサーの取得
@@ -127,11 +130,11 @@ public class SensorMonitor implements SensorEventListener{
             Log.d("sensor gyro","gyroX:" + gyroX + " \tgyroY:" + gyroY + " \tgyroZ:" + gyroZ + " \tgyroValue:" + gyroValue);
 
             if ( gyroValue > 7.5 ){
-                Log.d("sensor move","gyroValue:" + gyroValue + " \t ■■■非常に激しい回転");
+                callback.onRotate( new Rotate(gyroValues, gyroValue, Rotate.FAST) );
             } else if (gyroValue > 5 ){
-                Log.d("sensor move","gyroValue:" + gyroValue + " \t ■■激しい回転");
+                callback.onRotate( new Rotate(gyroValues,gyroValue,Rotate.NORMAL) );
             } else if ( gyroValue > 2.5){
-                Log.d("sensor move","gyroValue:" + gyroValue + " \t ■弱い回転");
+                callback.onRotate( new Rotate(gyroValues,gyroValue,Rotate.SLOW) );
             }
         }
     }
