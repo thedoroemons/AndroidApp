@@ -1,30 +1,39 @@
 package jp.co.spajam.androidapp;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.hardware.Camera;
+import android.util.Base64;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.twitter.sdk.android.core.Callback;
+import com.twitter.sdk.android.core.Result;
+import com.twitter.sdk.android.core.TwitterException;
+import com.twitter.sdk.android.core.models.Tweet;
+
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import twitter.TwitterManager;
+
 /**
  * Created by masaharu on 2015/05/16.
  */
 public class CameraView extends SurfaceView
         implements SurfaceHolder.Callback, Camera.PictureCallback {
+
+    private static final String TAG = CameraView.class.getSimpleName();
     private SurfaceHolder holder = null;
     private Camera camera = null;
     private static final String SDCARD_FOLDER = "/sdcard/CameraSample/";
-
-    //MyTimerTask timerTask = null;
-    //Timer   mTimer   = null;
-    //Handler mHandler = new Handler();
 
     public void takePicture(){
         camera.takePicture(null, null, CameraView.this);
@@ -43,15 +52,41 @@ public class CameraView extends SurfaceView
             dirs.mkdir();
         }
 
-//        //タイマーの初期化処理
-//        timerTask = new MyTimerTask();
-//        mTimer = new Timer(true);
-//        mTimer.schedule( timerTask, 0, 3000);
+    }
 
+    // SettingActivityより拝借
+    public void sendImageTweet(String imageBase64data) {
+        TwitterManager.sendImageTweet("画像投稿テスト", imageBase64data, new Callback<Tweet>() {
+            @Override
+            public void success(Result<Tweet> result) {
+                Log.i(TAG, "画像投稿成功");
+            }
+
+            @Override
+            public void failure(TwitterException e) {
+                Log.i(TAG, "画像投稿失敗");
+            }
+        });
     }
 
     @Override
     public void onPictureTaken(byte[] data, Camera camera) {
+
+        // byte data[] =>Bitmap bitmap =>String base64変換をする
+        Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 90, bos);
+        byte[] _bArray = bos.toByteArray();
+        String image64 = Base64.encodeToString(_bArray, Base64.DEFAULT);
+        // String imageBinary = "data:image/jpeg;base64,"+image64;
+
+        // 画像付きツイート送信
+        try {
+            sendImageTweet(image64);
+        }catch (Exception e){
+            //認証が済んでいない
+        }
+
         // TODO Auto-generated method stub
         SimpleDateFormat date = new SimpleDateFormat("yyyyMMdd_kkmmss");
         String datName = "P" + date.format(new Date()) + ".jpg";
@@ -86,11 +121,11 @@ public class CameraView extends SurfaceView
         }
     }
 
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         // TODO Auto-generated method stub
         if(event.getAction() == MotionEvent.ACTION_DOWN) {
-            //camera.takePicture(null, null, this);
 
             //パラメータ取得
             Camera.Parameters params = camera.getParameters();
@@ -138,24 +173,6 @@ public class CameraView extends SurfaceView
         camera.stopPreview();
         camera.release();
         camera = null;
-//        mTimer.cancel();
-//        mTimer=null;
     }
-
-//    // タイマータスク用のクラス
-//    class MyTimerTask extends TimerTask {
-//
-//        @Override
-//        public void run() {
-//            mHandler.post( new Runnable() {
-//                public void run() {
-//                    if(mTimer == null){
-//                        return;
-//                    }
-//                    camera.takePicture(null, null, CameraView.this);
-//                }
-//            });
-//        }
-//    }
 
 }

@@ -17,6 +17,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-feature android:name="android.hardware.camera.flash" />
+    <!-- 無くても良さげな気がする -->
+    <!--<uses-permission android:name="android.permission.WAKE_LOCK" />-->
 
     <!-- バイブ用 -->
     <uses-permission android:name="android.permission.VIBRATE"/>
