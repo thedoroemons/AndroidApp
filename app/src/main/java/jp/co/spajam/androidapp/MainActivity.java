@@ -1,5 +1,6 @@
 package jp.co.spajam.androidapp;
 
+import android.hardware.SensorManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -8,10 +9,21 @@ import android.view.MenuItem;
 
 public class MainActivity extends ActionBarActivity {
 
+    private SensorMonitor sensorMonitor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        SensorManager sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        sensorMonitor = new SensorMonitor(sensorManager); // センサー取得開始
+    }
+
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        sensorMonitor.destruction(); // センサーの取得終了
     }
 
     @Override
