@@ -8,6 +8,12 @@ import java.io.Serializable;
 public class Job implements Serializable{
     private static final long serialVersionUID = 6255752248513019028L;
 
+    public static final int LIGHT_JOB_ID = 1;
+    public static final int VIB_JOB_ID = 2;
+    public static final int VOICE_JOB_ID = 3;
+    public static final int NONE_VOIDE_ID = 0;
+    public static final int DEFAULT_VOIDE_ID = 1;
+
     private String created_at;
     private int id;
     private boolean is_finished;

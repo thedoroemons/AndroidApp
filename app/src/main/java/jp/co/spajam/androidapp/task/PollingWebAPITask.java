@@ -17,6 +17,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.TimerTask;
 
+import jp.co.spajam.androidapp.RequestQueueHolder;
 import jp.co.spajam.androidapp.data.Job;
 import jp.co.spajam.androidapp.listener.OnReceiveJob;
 
@@ -42,7 +43,7 @@ public class PollingWebAPITask extends TimerTask{
     private void getCurrentJobs(){
         String url = "http://128.199.201.83:9292/jobs/current"; //未処理のジョブ
 
-        RequestQueue mQueue = Volley.newRequestQueue(context);
+        RequestQueue mQueue = RequestQueueHolder.getRequestQueue(context);
         mQueue.add(new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -78,7 +79,7 @@ public class PollingWebAPITask extends TimerTask{
     private void testGetAllJobs(){
         String url = "http://128.199.201.83:9292/jobs"; //ジョブ全件
 
-        RequestQueue mQueue = Volley.newRequestQueue(context);
+        RequestQueue mQueue = RequestQueueHolder.getRequestQueue(context);
         mQueue.add(new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
                     @Override

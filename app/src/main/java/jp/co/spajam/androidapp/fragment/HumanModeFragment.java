@@ -13,15 +13,19 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import jp.co.spajam.androidapp.MainActivity;
+import jp.co.spajam.androidapp.PostJob;
 import jp.co.spajam.androidapp.R;
+import jp.co.spajam.androidapp.data.Job;
 
 public class HumanModeFragment extends Fragment {
 
     private OnClickListener listener;
+    private PostJob postJob;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_human_mode, container, false);
+        postJob = new PostJob(getActivity());
 
         Button lightBtn = (Button)view.findViewById(R.id.btn_light);
         lightBtn.setOnClickListener(new View.OnClickListener() {
@@ -31,6 +35,8 @@ public class HumanModeFragment extends Fragment {
                 Toast.makeText(getActivity(), "lightBtn!", Toast.LENGTH_SHORT).show();
                 //コメントアウト解除でMainActivityのOnclickが呼ばれます
                 //listener.onClickMode(v.getId());
+                postJob.postJobToWebAPI(Job.LIGHT_JOB_ID,Job.NONE_VOIDE_ID);
+
             }
         });
 
@@ -41,6 +47,7 @@ public class HumanModeFragment extends Fragment {
             public void onClick(View v) {
                 Toast.makeText(getActivity(), "voiceBtn!", Toast.LENGTH_SHORT).show();
                 //listener.onClickMode(v.getId());
+                postJob.postJobToWebAPI(Job.VOICE_JOB_ID,Job.DEFAULT_VOIDE_ID);
             }
         });
 
@@ -51,6 +58,7 @@ public class HumanModeFragment extends Fragment {
             public void onClick(View v) {
                 Toast.makeText(getActivity(), "vibBtn!", Toast.LENGTH_SHORT).show();
                 //listener.onClickMode(v.getId());
+                postJob.postJobToWebAPI(Job.VIB_JOB_ID,Job.NONE_VOIDE_ID);
             }
         });
 
