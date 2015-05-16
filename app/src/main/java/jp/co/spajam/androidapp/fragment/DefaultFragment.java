@@ -21,14 +21,8 @@ public class DefaultFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_default, container, false);
-        return view;
-    }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        Button humanBtn = (Button)getActivity().findViewById(R.id.humanbtn);
+        Button humanBtn = (Button)view.findViewById(R.id.humanbtn);
         humanBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -38,7 +32,7 @@ public class DefaultFragment extends Fragment {
             }
         });
 
-        Button petBtn = (Button)getActivity().findViewById(R.id.petbtn);
+        Button petBtn = (Button)view.findViewById(R.id.petbtn);
         petBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -48,6 +42,13 @@ public class DefaultFragment extends Fragment {
             }
         });
 
+
+        return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
     }
 
     @Override
