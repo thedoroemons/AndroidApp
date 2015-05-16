@@ -1,5 +1,8 @@
 package jp.co.spajam.androidapp;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.support.annotation.IdRes;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.hardware.SensorManager;
@@ -12,7 +15,17 @@ import android.view.MenuItem;
 import android.view.View;
 
 
-public class MainActivity extends ActionBarActivity{
+import jp.co.spajam.androidapp.fragment.DefaultFragment;
+import jp.co.spajam.androidapp.fragment.HumanModeFragment;
+import jp.co.spajam.androidapp.fragment.PetModeFragment;
+
+
+public class MainActivity extends ActionBarActivity implements DefaultFragment.OnClickListener {
+
+    private DefaultFragment defaultFragment;
+    private HumanModeFragment humanModeFragment;
+    private PetModeFragment petModeFragment;
+
 
     private OnRotateBroadcastReceiver onRotateBroadcastReceiver;
 
@@ -20,6 +33,14 @@ public class MainActivity extends ActionBarActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        defaultFragment = new DefaultFragment();
+        humanModeFragment = new HumanModeFragment();
+        petModeFragment = new PetModeFragment();
+
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.add(R.id.base_layout, defaultFragment, "defaultFragment");
+        transaction.commit();
 
         // センサー取得開始
         startService(new Intent(this, SensorService.class));
@@ -30,35 +51,27 @@ public class MainActivity extends ActionBarActivity{
         intentFilter.addAction("ROTATE");
         registerReceiver(onRotateBroadcastReceiver, intentFilter);
 
-        // ペットモードボタン
-        findViewById(R.id.petbtn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-
-        // 人間モードボタン
-        findViewById(R.id.humanbtn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-
-
-        // 写真モードボタン
-        findViewById(R.id.photoBtn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent it = new Intent(MainActivity.this, PhotoActivity.class);
-                startActivity(it);
-            }
-        });
-
     }
 
     @Override
+    public void onClickMode(@IdRes int id) {
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        if (null != transaction) {
+            switch (id) {
+                case R.id.humanbtn:
+                    transaction.replace(R.id.base_layout, humanModeFragment);
+                    break;
+                case R.id.petbtn:
+                    transaction.replace(R.id.base_layout, petModeFragment);
+                    break;
+                default:
+                    transaction.replace(R.id.base_layout, defaultFragment);
+                    break;
+            }
+            transaction.commit();
+        }
+    }
+
     protected void onDestroy(){
         super.onDestroy();
         stopService(new Intent(this, SensorService.class));
