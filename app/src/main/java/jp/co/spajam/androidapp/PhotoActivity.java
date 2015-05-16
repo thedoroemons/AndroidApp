@@ -46,7 +46,11 @@ public class PhotoActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo);
+
+        //デバッグ用
         ((TextView) findViewById(R.id.title)).setText(System.currentTimeMillis() % 1000 + "");
+
+        //ボタンが押されたら、カメラ起動
         findViewById(R.id.photoBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -78,6 +82,8 @@ public class PhotoActivity extends ActionBarActivity {
     }
 
     protected void wakeupCamera(){
+
+        // ストレージがなければ作成、既に生成済みであればそれを使う。
         File mediaStorageDir = new File(
                 Environment.getExternalStoragePublicDirectory(
                         Environment.DIRECTORY_PICTURES
@@ -89,10 +95,12 @@ public class PhotoActivity extends ActionBarActivity {
             return;
         }
 
+        // ファイル名は日付時刻
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         File  bitmapFile = new File(mediaStorageDir.getPath() + File.separator + timeStamp + ".JPG");
         bitmapUri = Uri.fromFile(bitmapFile);
 
+        //
         Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         i.putExtra(MediaStore.EXTRA_OUTPUT, bitmapUri);
         startActivityForResult(i, REQUEST_CODE_CAMERA);
@@ -111,8 +119,11 @@ public class PhotoActivity extends ActionBarActivity {
                         public void onScanCompleted(String path, Uri uri) {
                         }
                     });
-            // プレビュー描画
+
+            // 保存パスを表示
             ((TextView) findViewById(R.id.title)).setText(paths[0]);
+
+            // プレビュー描画
             ImageView imgView = (ImageView) findViewById(R.id.photo);
             openPictureResize(bitmapUri, imgView, size_X, size_Y);
             // URL登録準備
@@ -126,8 +137,13 @@ public class PhotoActivity extends ActionBarActivity {
 
     public void openPictureResize(Uri uri,ImageView imgView,int x,int y){
 
+        // 画像生成
         Bitmap bitmap = createBitmap(uri,x,y,true);
+
+        // リサイズして表示する。(無くても良い)
         bitmap = resize(bitmap, x, y);
+
+
         imgView.setImageBitmap(bitmap);
         if(bitmap == null){
             imgView.setImageResource(R.drawable.abc_cab_background_top_material);
