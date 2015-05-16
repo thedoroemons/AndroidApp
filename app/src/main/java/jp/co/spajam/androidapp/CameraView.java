@@ -90,7 +90,15 @@ public class CameraView extends SurfaceView
     public boolean onTouchEvent(MotionEvent event) {
         // TODO Auto-generated method stub
         if(event.getAction() == MotionEvent.ACTION_DOWN) {
-            camera.takePicture(null, null, this);
+            //camera.takePicture(null, null, this);
+
+            //パラメータ取得
+            Camera.Parameters params = camera.getParameters();
+            //フラッシュモードを点灯に設定
+            params.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+            //パラメータ設定
+            camera.setParameters(params);
+
         }
         return true;
     }
