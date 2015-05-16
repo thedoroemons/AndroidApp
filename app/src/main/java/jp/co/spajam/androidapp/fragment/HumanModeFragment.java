@@ -10,17 +10,29 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Toast;
 
+import com.twitter.sdk.android.core.TwitterAuthConfig;
+import com.twitter.sdk.android.core.TwitterCore;
+import com.twitter.sdk.android.tweetui.TweetTimelineListAdapter;
+import com.twitter.sdk.android.tweetui.TweetUi;
+import com.twitter.sdk.android.tweetui.UserTimeline;
+
+import io.fabric.sdk.android.Fabric;
 import jp.co.spajam.androidapp.MainActivity;
 import jp.co.spajam.androidapp.PostJob;
 import jp.co.spajam.androidapp.R;
 import jp.co.spajam.androidapp.data.Job;
+import jp.co.spajam.androidapp.Util;
+import twitter.TwitterManager;
 
 public class HumanModeFragment extends Fragment {
 
     private OnClickListener listener;
     private PostJob postJob;
+
+    private ListView mListView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -62,6 +74,8 @@ public class HumanModeFragment extends Fragment {
             }
         });
 
+        mListView = (ListView) view.findViewById(R.id.list);
+
 
         return view;
     }
@@ -69,8 +83,25 @@ public class HumanModeFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        setListener((MainActivity)activity);
+        setListener((MainActivity) activity);
+
+        TwitterAuthConfig authConfig =  new TwitterAuthConfig(TwitterManager.TWITTER_KEY, TwitterManager.TWITTER_SECRET);
+        Fabric.with(activity, new TwitterCore(authConfig), new TweetUi());
     }
+
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        String name = Util.getSpPetAccountName(getActivity());
+        final UserTimeline userTimeline = new UserTimeline.Builder().screenName(name).build();
+        final TweetTimelineListAdapter adapter = new TweetTimelineListAdapter(getActivity(), userTimeline);
+
+        mListView.setAdapter(adapter);
+    }
+
 
     /**
      * リスナーを追加する
