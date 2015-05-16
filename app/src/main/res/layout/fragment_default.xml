@@ -2,43 +2,55 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:background="@drawable/img"
     tools:context=".MainActivity">
 
     <TextView
-        android:text="@string/hello_world"
+        android:text="アプリ名？？？？？"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
         android:textSize="30dp"
+        android:layout_centerInParent="true"
+        android:textColor="#FFFFFF"
         android:layout_centerHorizontal="true"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="人間モード"
-        android:id="@+id/humanbtn"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:layout_height="wrap_content">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ペットモード"
-        android:id="@+id/petbtn"
-        android:layout_centerHorizontal="true"
-        android:layout_above="@+id/humanbtn" />
+        <Button
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:text="人間"
+            android:layout_margin="10dp"
+            android:id="@+id/humanbtn"
+            android:background="@drawable/human"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="設定"
-        android:id="@+id/settingbtn"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/humanbtn" />
+        <Button
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:text="ネコ"
+            android:layout_margin="10dp"
+            android:id="@+id/petbtn"
+            android:background="@drawable/pet"
+            android:layout_centerHorizontal="true"
+            android:layout_above="@+id/humanbtn" />
+
+        <Button
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:text=""
+            android:layout_margin="10dp"
+            android:id="@+id/settingbtn"
+            android:background="@drawable/setting"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/humanbtn" />
+    </LinearLayout>
 
 </RelativeLayout>
