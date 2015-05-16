@@ -1,9 +1,11 @@
 package jp.co.spajam.androidapp.fragment;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +38,16 @@ public class PetModeFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        //バイブ
+        //Vibrator vibrator = (Vibrator)getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+        //vibrator.vibrate(10);
 
+        Vibrator vibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+        long[] pattern = {300, 1000, 200, 1000, 300, 1000}; // OFF/ON/OFF/ON...
+        vibrator.vibrate(pattern, -1);
+        //バイブ
+
+        //音声再生
         mp = MediaPlayer.create(getActivity(), R.raw.sound);
 
         if (mp.isPlaying()) { //再生中
@@ -50,7 +61,8 @@ public class PetModeFragment extends Fragment {
             }
         }
         else { //停止中
-            mp.start();
+            //mp.start();
         }
+        //音声再生
     }
 }
