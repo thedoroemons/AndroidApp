@@ -1,11 +1,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/inu"
     tools:context="jp.co.spajam.androidapp.fragment.HumanModeFragment">
 
+    <ListView
+        android:id="@+id/list"
+        android:layout_above="@+id/layout_button"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></ListView>
 
     <LinearLayout
+        android:id="@+id/layout_button"
         android:orientation="horizontal"
         android:gravity="center"
         android:layout_alignParentBottom="true"

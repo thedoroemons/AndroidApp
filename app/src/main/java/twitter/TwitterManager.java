@@ -1,6 +1,8 @@
 package twitter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.util.Base64;
 
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.Callback;
@@ -12,6 +14,7 @@ import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.models.Tweet;
 import com.twitter.sdk.android.core.services.StatusesService;
 
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 import io.fabric.sdk.android.Fabric;
@@ -20,8 +23,8 @@ import io.fabric.sdk.android.Fabric;
  * Created by fuji on 2015/05/16.
  */
 public class TwitterManager {
-    private static final String TWITTER_KEY = "bDfewBtCuKTvXB2nFDLD5TsNv";
-    private static final String TWITTER_SECRET = "dSoQt0jl8aV1k0EPdu9M5fuFUQ4TYQfMpyNfBazkPBZhbWqA5m";
+    public static final String TWITTER_KEY = "bDfewBtCuKTvXB2nFDLD5TsNv";
+    public static final String TWITTER_SECRET = "dSoQt0jl8aV1k0EPdu9M5fuFUQ4TYQfMpyNfBazkPBZhbWqA5m";
 
     /**
      * TwitterLibraryの初期化処理
@@ -81,5 +84,20 @@ public class TwitterManager {
             }
 
         });
+    }
+
+    /**
+     * 画像データをBase64でエンコードする
+     * @param image
+     * @return
+     */
+    public static String encodeTobase64(Bitmap image) {
+        Bitmap immagex=image;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        immagex.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] b = baos.toByteArray();
+        String imageEncoded = Base64.encodeToString(b, Base64.DEFAULT);
+
+        return imageEncoded;
     }
 }
