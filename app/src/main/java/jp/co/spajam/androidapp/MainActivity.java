@@ -36,7 +36,6 @@ public class MainActivity extends ActionBarActivity implements DefaultFragment.O
 
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.add(R.id.base_layout, defaultFragment, "defaultFragment");
-        transaction.addToBackStack(null);
         transaction.commit();
 
         // センサー取得開始
@@ -77,12 +76,12 @@ public class MainActivity extends ActionBarActivity implements DefaultFragment.O
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         // Disable Back key
-        getFragmentManager().popBackStack();
-
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            return false;
+        if(0 != getFragmentManager().getBackStackEntryCount()) {
+            getFragmentManager().popBackStack();
+            if (keyCode == KeyEvent.KEYCODE_BACK) {
+                return false;
+            }
         }
-
         return super.onKeyDown(keyCode, event);
     }
 
