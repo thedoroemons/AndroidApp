@@ -6,8 +6,10 @@ import android.hardware.SensorManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 
 public class MainActivity extends ActionBarActivity{
@@ -27,6 +29,33 @@ public class MainActivity extends ActionBarActivity{
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("ROTATE");
         registerReceiver(onRotateBroadcastReceiver, intentFilter);
+
+        // ペットモードボタン
+        findViewById(R.id.petbtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        // 人間モードボタン
+        findViewById(R.id.humanbtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+
+        // 写真モードボタン
+        findViewById(R.id.photoBtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent it = new Intent(MainActivity.this, PhotoActivity.class);
+                startActivity(it);
+            }
+        });
+
     }
 
     @Override

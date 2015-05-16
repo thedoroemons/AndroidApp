@@ -11,6 +11,34 @@
     <TextView
         android:text="@string/hello_world"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:textSize="30dp"
+        android:layout_centerHorizontal="true"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="人間モード"
+        android:id="@+id/humanbtn"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ペットモード"
+        android:id="@+id/petbtn"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/humanbtn" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="写真を撮る"
+        android:id="@+id/photoBtn"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/petbtn" />
 
 </RelativeLayout>
