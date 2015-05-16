@@ -19,11 +19,19 @@ public class OnRotateBroadcastReceiver extends BroadcastReceiver {
 
         if ( rotate.getRotate() == Rotate.FAST ){
             Log.d("sensor move","gyroValue:" + rotate.getGyroValue() + " \t ■■■非常に激しい回転");
+            sendBroadcast();
         } else if ( rotate.getRotate() == Rotate.NORMAL ){
             Log.d("sensor move","gyroValue:" + rotate.getGyroValue() + " \t ■■激しい回転");
         } else if ( rotate.getRotate() == Rotate.SLOW ){
             Log.d("sensor move","gyroValue:" + rotate.getGyroValue() + " \t ■弱い回転");
         }
         //TODO カメラ起動とかを呼ぶ
+        mainActivity.onRotate(new float[]{0f},10);
+    }
+
+    public void sendBroadcast(){
+        Intent broadcast = new Intent();
+        broadcast.setAction("TEST");
+        mainActivity.sendBroadcast(broadcast);
     }
 }
