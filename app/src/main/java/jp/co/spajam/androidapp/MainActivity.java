@@ -67,7 +67,7 @@ public class MainActivity extends ActionBarActivity implements DefaultFragment.O
                     transaction.replace(R.id.base_layout, petModeFragment);
                     break;
                 case R.id.settingbtn:
-                    transaction.replace(R.id.base_layout, mSettingFragment, SettingFragment.class.getSimpleName());
+                    startActivity(new Intent(this, SettingActivity.class));
                     break;
                 default:
                     transaction.replace(R.id.base_layout, defaultFragment);
@@ -122,14 +122,4 @@ public class MainActivity extends ActionBarActivity implements DefaultFragment.O
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        Fragment fragment = getFragmentManager().findFragmentByTag(SettingFragment.class.getSimpleName());
-
-        if (fragment != null) {
-            fragment.onActivityResult(requestCode, resultCode, data);
-        }
-    }
 }
