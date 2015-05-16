@@ -1,6 +1,7 @@
 package jp.co.spajam.androidapp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -8,7 +9,11 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterException;
@@ -22,10 +27,13 @@ import java.util.List;
 import twitter.TwitterManager;
 
 
-public class SettingActivity extends ActionBarActivity {
+public class SettingActivity extends ActionBarActivity implements View.OnClickListener{
     private static final String TAG = SettingActivity.class.getSimpleName();
     TwitterLoginButton mLoginButton;
 
+    private TextView mAccountName;
+
+    private EditText mPetAccountName;
     // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
 
 
@@ -35,12 +43,25 @@ public class SettingActivity extends ActionBarActivity {
         TwitterManager.initTwitter(this);
         setContentView(R.layout.activity_setting);
 
+        //ログインアカウント名
+        mAccountName = (TextView)findViewById(R.id.text_view_label_login_account);
+        String name = getLoginUserName();
+        setAccountNameTextView(name);
+
+
+        //ペットアカウント名
+        mPetAccountName = (EditText)findViewById(R.id.edit_pet_account);
+        mPetAccountName.setText(Util.getSpPetAccountName(this));
+
+        //ログインボタン
         mLoginButton = (TwitterLoginButton)findViewById(R.id.login_button);
         mLoginButton.setCallback(new Callback<TwitterSession>() {
             @Override
             public void success(Result<TwitterSession> result) {
                 Log.i(TAG, "success");
-                getTweetList();
+
+                String name = result.data.getUserName();
+                setAccountNameTextView(name);
             }
 
             @Override
@@ -49,6 +70,7 @@ public class SettingActivity extends ActionBarActivity {
             }
         });
 
+        //テスト用
         ((Button)findViewById(R.id.get_button)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,6 +91,9 @@ public class SettingActivity extends ActionBarActivity {
                 sendImageTweet();
             }
         });
+
+
+        ((Button)findViewById(R.id.button_save_pet_account)).setOnClickListener(this);
     }
 
 
@@ -79,18 +104,59 @@ public class SettingActivity extends ActionBarActivity {
         mLoginButton.onActivityResult(requestCode, resultCode, data);
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.button_save_pet_account:
+
+            String name = mPetAccountName.getText().toString();
+            if (!name.equals("")) {
+                Util.setSpPetAccountName(this, name);
+                showToast(name);
+            }
+            break;
+        }
+    }
+
+    private void showToast(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+
+    }
+
+    private String getLoginUserName() {
+        TwitterSession session = Twitter.getSessionManager().getActiveSession();
+        if (session == null) {
+            return "";
+        } else {
+            return session.getUserName();
+        }
+    }
+
+    private void setAccountNameTextView(String name) {
+        if (name != null && !name.equals("")) {
+            mAccountName.setText("ログイン中:" + name);
+        } else {
+            mAccountName.setText("未ログイン");
+        }
+
+    }
+
+   //---------------------------
+
+
     public void getTweetList() {
         TwitterManager.getTweetList("PleasureCalling", 180, new Callback<List<Tweet>>() {
             @Override
             public void success(Result<List<Tweet>> result) {
-                for (Tweet tweet:result.data) {
-                    Log.i(TAG,tweet.text);
+                for (Tweet tweet : result.data) {
+                    Log.i(TAG, tweet.text);
+
                 }
             }
 
             @Override
             public void failure(TwitterException e) {
-                Log.i(TAG,"ツイートリスト取得失敗");
+                Log.i(TAG, "ツイートリスト取得失敗");
             }
         });
 
@@ -106,6 +172,7 @@ public class SettingActivity extends ActionBarActivity {
             @Override
             public void failure(TwitterException e) {
                 Log.i(TAG, "文章投稿失敗");
+                Log.i(TAG, e.getMessage());
             }
         });
     }
@@ -121,18 +188,10 @@ public class SettingActivity extends ActionBarActivity {
             @Override
             public void failure(TwitterException e) {
                 Log.i(TAG, "画像投稿失敗");
+                Log.i(TAG, e.getMessage());
             }
         });
     }
 
-    public static String encodeTobase64(Bitmap image) {
-        Bitmap immagex=image;
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        immagex.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        byte[] b = baos.toByteArray();
-        String imageEncoded = Base64.encodeToString(b, Base64.DEFAULT);
 
-        Log.e("LOOK", imageEncoded);
-        return imageEncoded;
-    }
 }
