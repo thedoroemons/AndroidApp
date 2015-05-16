@@ -3,7 +3,6 @@ package jp.co.spajam.androidapp;
 import android.content.Context;
 import android.hardware.Camera;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -84,15 +83,6 @@ public class CameraView extends SurfaceView
             }
             throw e;
         }
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        // TODO Auto-generated method stub
-        if(event.getAction() == MotionEvent.ACTION_DOWN) {
-            camera.takePicture(null, null, this);
-        }
-        return true;
     }
 
     @Override
