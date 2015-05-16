@@ -14,7 +14,7 @@ import jp.co.spajam.androidapp.listener.OnReceiveJob;
 public class PetPollingWebAPIService extends Service implements OnReceiveJob {
 
     private Timer timer;
-    private static final int PERIOD_MS = 10000; //このミリ秒おきにWebAPIをポーリングする
+    private static final int PERIOD_MS = 1000; //このミリ秒おきにWebAPIをポーリングする
 
     public PetPollingWebAPIService() {
     }
