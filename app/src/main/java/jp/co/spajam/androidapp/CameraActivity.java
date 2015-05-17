@@ -21,7 +21,7 @@ import jp.co.spajam.androidapp.twitter.TwitterManager;
 
 public class CameraActivity extends Activity {
 
-    private static final int COUNT_PHOTO = 1;
+    private static final int COUNT_PHOTO_POINT = 1;
     public static final String ACTION_ROTATE = "ACTION_MOVE";
     public static final String EXTRA_ROTATE =  "EXTRA_MOVE";
 
@@ -42,25 +42,51 @@ public class CameraActivity extends Activity {
         // カメラ用ビューの設定
         setContentView(cameraView = new CameraView(this));
         IntentFilter intentFilter = new IntentFilter(ACTION_ROTATE);
-        registerReceiver(receiver,intentFilter);
+        registerReceiver(receiver, intentFilter);
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(receiver);
     }
 
     private BroadcastReceiver receiver = new BroadcastReceiver() {
 
-        private int count = 0;
+        private int photo_count_point = 0;
 
         @Override
         public void onReceive(Context context, Intent intent) {
             int type = intent.getIntExtra(EXTRA_ROTATE, -1);
             Log.d("Test","TEST" + type);
-            if(type == Rotate.FAST){
-                count++;
-                Log.d("Test","COUNT" + count);
-                if(count >= COUNT_PHOTO){
-                    cameraView.takePicture();
-                    count = 0;
 
+            String tweetText = "ゴロゴロ気持ちいいニャー";
+            boolean canTweet = false;
+
+            switch (type){
+
+                case Rotate.FAST:
+                    tweetText = "運動が楽しいニャー";
+                    canTweet = true;
+                    break;
+                case Rotate.NORMAL:
+                    tweetText = "ゴロゴロ気持ちいいニャー";
+                    canTweet = true;
+                    break;
+                case Rotate.SLOW:
+                    tweetText = "眠くなってきたニャー";
+                    canTweet = true;
+                    break;
+                default:
+                    break;
+            }
+
+            if(canTweet){
+                photo_count_point++;
+                if(photo_count_point >= COUNT_PHOTO_POINT){
+                    cameraView.takePicture(CameraActivity.this, tweetText);
+                    photo_count_point = 0;
                 }
             }
         }
