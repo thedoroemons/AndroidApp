@@ -1,21 +1,16 @@
 package jp.co.spajam.androidapp.fragment;
 
 import android.app.Fragment;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.hardware.Camera;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.Vibrator;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.io.IOException;
-
 import jp.co.spajam.androidapp.CameraActivity;
-import jp.co.spajam.androidapp.SensorService;
 import jp.co.spajam.androidapp.broadcastreceiver.OnReceiveJobBroadcastReceiver;
 import jp.co.spajam.androidapp.service.PetPollingWebAPIService;
 import jp.co.spajam.androidapp.R;

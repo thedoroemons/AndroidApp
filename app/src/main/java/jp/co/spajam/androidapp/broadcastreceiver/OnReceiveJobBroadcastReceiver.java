@@ -30,7 +30,6 @@ public class OnReceiveJobBroadcastReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         ArrayList<Job> jobs = (ArrayList<Job>)intent.getSerializableExtra("JOBS");
 
-        // user_idは見ていません。すべてのuser_idに反応します
         for (Job job : jobs) { // [HINT]for文をかいているけど実際は１個ずつjobが来ます
             int jobId = job.getJob_id();
             switch (jobId){

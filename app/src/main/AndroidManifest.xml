@@ -54,7 +54,7 @@
         </activity>
 
         <service
-            android:name=".SensorService"
+            android:name=".service.SensorService"
             android:enabled="true"
             android:exported="true" >
         </service>
