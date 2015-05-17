@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.hardware.Camera;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -53,7 +54,7 @@ public class CameraView extends SurfaceView
         camera.takePicture(null, null, CameraView.this);
     }
 
-    private void ringShutterSound(Activity activity){
+    private void ringShutterSound(Activity activity, int id){
 
         // AudioManagerを取得する
         final AudioManager am = (AudioManager)activity.getSystemService(Context.AUDIO_SERVICE);
@@ -67,7 +68,7 @@ public class CameraView extends SurfaceView
         am.setStreamVolume(AudioManager.STREAM_MUSIC, (int) (ringMaxVolume * VOICE_RATE), 0);
 
         //音声再生
-        mp = MediaPlayer.create(activity, R.raw.shutter);
+        mp = MediaPlayer.create(activity, id);
 
         if (mp.isPlaying()) { //再生中
             mp.stop();
@@ -105,19 +106,25 @@ public class CameraView extends SurfaceView
 
     }
 
+    boolean nowSending = false;
+
     // SettingActivityより拝借
     public void sendImageTweet(String tweetText, String imageBase64data) {
         TwitterManager.sendImageTweet(tweetText, imageBase64data, new Callback<Tweet>() {
             @Override
             public void success(Result<Tweet> result) {
-                // シャッター音を鳴らす
-                ringShutterSound(activity);
+                // バイブ
+                Vibrator vibrator = (Vibrator) activity.getSystemService(Context.VIBRATOR_SERVICE);
+                long[] pattern = {300, 1000, 200, 1000, 300, 1000}; // OFF/ON/OFF/ON...
+                vibrator.vibrate(pattern, -1);
                 Log.i(TAG, "画像投稿成功");
+                nowSending = false;
             }
 
             @Override
             public void failure(TwitterException e) {
                 Log.i(TAG, "画像投稿失敗");
+                nowSending = false;
             }
         });
     }
@@ -125,8 +132,8 @@ public class CameraView extends SurfaceView
     @Override
     public void onPictureTaken(byte[] data, Camera camera) {
 
-//        // シャッター音を鳴らす
-//        ringShutterSound(activity);
+        // シャッター音を鳴らす
+        ringShutterSound(activity, R.raw.shutter);
 
         // byte data[] =>Bitmap bitmap =>String base64変換をする
         Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
@@ -135,7 +142,11 @@ public class CameraView extends SurfaceView
 
         // 画像付きツイート送信
         //try {
+        if(! nowSending){
             sendImageTweet(tweetMessage, image64);
+            nowSending = true;
+        }
+
         //}catch (Exception e){
             //認証が済んでいない
         //}
