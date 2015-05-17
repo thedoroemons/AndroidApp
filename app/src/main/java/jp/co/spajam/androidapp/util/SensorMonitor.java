@@ -1,19 +1,26 @@
-package jp.co.spajam.androidapp;
+package jp.co.spajam.androidapp.util;
 
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.util.Log;
 
+import java.util.Date;
 import java.util.List;
+
+import jp.co.spajam.androidapp.data.Rotate;
+import jp.co.spajam.androidapp.listener.OnRotate;
 
 /**
  * 端末の動きを監視するクラス
  */
 public class SensorMonitor implements SensorEventListener{
+    private static final long DELAY_ONROTATE_EVENT = 3000L; // onRotateイベント送信は３秒間あける
+
     private SensorManager sensorManager;
     private OnRotate callback;
+    private long lastOnRotateUnixTime = System.currentTimeMillis(); // 前回onRotateイベントを投げたunixtime
+    private Rotate maxSpeedRotate; // 前回onRotateイベントを投げてから最も早い回転を保持しておく
 
     //センサーのリスナーを登録したのでアプリ終了時に消すかどうか
     private boolean isMagSensor;
@@ -107,7 +114,7 @@ public class SensorMonitor implements SensorEventListener{
             float roll = radianToDegree(orientationValues[2]); //奥軸時計回り回転（９時の向き:-90度、３時の向き:90度
 
             // スマホの向きが取れる
-            Log.d("sensor roll","azmuth:" + azmuth + " \tpitch:" + pitch + " \troll:" + roll);
+            //Log.d("sensor roll","azmuth:" + azmuth + " \tpitch:" + pitch + " \troll:" + roll);
         }
 
         if( event.sensor.getType() == Sensor.TYPE_ACCELEROMETER ){
@@ -117,7 +124,7 @@ public class SensorMonitor implements SensorEventListener{
             double accValue = Math.sqrt(accX * accX + accY * accY + accZ * accZ);
 
             // スマホの加速度が取れる(重力加速度込み)
-            Log.d("sensor acc","accX:" + accX + " \taccY:" + accY + " \taccZ:" + accZ + " \taccValue:" + accValue);
+            //Log.d("sensor acc","accX:" + accX + " \taccY:" + accY + " \taccZ:" + accZ + " \taccValue:" + accValue);
         }
 
         if ( event.sensor.getType() == Sensor.TYPE_GYROSCOPE ){
@@ -127,14 +134,27 @@ public class SensorMonitor implements SensorEventListener{
             double gyroValue = Math.sqrt(gyroX*gyroX + gyroY*gyroY + gyroZ*gyroZ);
 
             // スマホの回転加速度が取れる
-            Log.d("sensor gyro","gyroX:" + gyroX + " \tgyroY:" + gyroY + " \tgyroZ:" + gyroZ + " \tgyroValue:" + gyroValue);
+            //Log.d("sensor gyro","gyroX:" + gyroX + " \tgyroY:" + gyroY + " \tgyroZ:" + gyroZ + " \tgyroValue:" + gyroValue);
 
+            Rotate rotate = null;
+            long currentUnixTime = System.currentTimeMillis();
             if ( gyroValue > 7.5 ){
-                callback.onRotate( new Rotate(gyroValues, gyroValue, Rotate.FAST) );
+                rotate = new Rotate(gyroValues, gyroValue, Rotate.FAST);
             } else if (gyroValue > 5 ){
-                callback.onRotate( new Rotate(gyroValues,gyroValue,Rotate.NORMAL) );
+                rotate =  new Rotate(gyroValues,gyroValue,Rotate.NORMAL);
             } else if ( gyroValue > 2.5){
-                callback.onRotate( new Rotate(gyroValues,gyroValue,Rotate.SLOW) );
+                rotate =  new Rotate(gyroValues,gyroValue,Rotate.SLOW);
+            }
+
+            if ( rotate != null ){
+                if ( maxSpeedRotate == null || rotate.getRotate() > maxSpeedRotate.getRotate() ) {
+                    maxSpeedRotate = rotate;
+                }
+                if ( (currentUnixTime - lastOnRotateUnixTime) > DELAY_ONROTATE_EVENT ){
+                    lastOnRotateUnixTime = System.currentTimeMillis();
+                    maxSpeedRotate = null;
+                    callback.onRotate(rotate);
+                }
             }
         }
     }

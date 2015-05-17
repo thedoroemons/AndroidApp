@@ -1,19 +1,18 @@
 package jp.co.spajam.androidapp.fragment;
 
 import android.app.Fragment;
-import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.hardware.Camera;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.Vibrator;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.io.IOException;
-
 import jp.co.spajam.androidapp.CameraActivity;
+import jp.co.spajam.androidapp.broadcastreceiver.OnReceiveJobBroadcastReceiver;
+import jp.co.spajam.androidapp.service.PetPollingWebAPIService;
 import jp.co.spajam.androidapp.R;
 
 
@@ -21,6 +20,7 @@ public class PetModeFragment extends Fragment {
 
     MediaPlayer mp = null;
     private Camera camera = null;
+    private OnReceiveJobBroadcastReceiver onReceiveJobBroadcastReceiver;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -34,7 +34,23 @@ public class PetModeFragment extends Fragment {
             }
         });
 
+        // WebAPIのポーリングを開始
+        getActivity().startService(new Intent(getActivity(), PetPollingWebAPIService.class));
+
+        // WebAPIからJobが来たらブロードキャストレシーバーで知らせてもらう
+        onReceiveJobBroadcastReceiver = new OnReceiveJobBroadcastReceiver(this);
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("JOBS");
+        getActivity().registerReceiver(onReceiveJobBroadcastReceiver, intentFilter);
+
         return view;
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        getActivity().stopService(new Intent(getActivity(), PetPollingWebAPIService.class));
+        getActivity().unregisterReceiver(onReceiveJobBroadcastReceiver);
     }
 
     @Override
@@ -46,13 +62,14 @@ public class PetModeFragment extends Fragment {
         //Vibrator vibrator = (Vibrator)getActivity().getSystemService(Context.VIBRATOR_SERVICE);
         //vibrator.vibrate(10);
 
-        Vibrator vibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
-        long[] pattern = {300, 1000, 200, 1000, 300, 1000}; // OFF/ON/OFF/ON...
-        vibrator.vibrate(pattern, -1);
+        //Vibrator vibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+        //long[] pattern = {300, 1000, 200, 1000, 300, 1000}; // OFF/ON/OFF/ON...
+        //vibrator.vibrate(pattern, -1);
         //バイブ
 
+        /*
         //音声再生
-        mp = MediaPlayer.create(getActivity(), R.raw.sound);
+        //mp = MediaPlayer.create(getActivity(), R.raw.sound);
 
         if (mp.isPlaying()) { //再生中
             mp.stop();
@@ -68,5 +85,6 @@ public class PetModeFragment extends Fragment {
             //mp.start();
         }
         //音声再生
+        */
     }
 }

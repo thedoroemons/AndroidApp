@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.hardware.Camera;
-import android.util.Base64;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -15,14 +14,13 @@ import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.models.Tweet;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import twitter.TwitterManager;
+import jp.co.spajam.androidapp.twitter.TwitterManager;
 
 /**
  * Created by masaharu on 2015/05/16.
@@ -74,10 +72,13 @@ public class CameraView extends SurfaceView
 
         // byte data[] =>Bitmap bitmap =>String base64変換をする
         Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 90, bos);
-        byte[] _bArray = bos.toByteArray();
-        String image64 = Base64.encodeToString(_bArray, Base64.DEFAULT);
+
+
+        String image64 = TwitterManager.encodeTobase64(bitmap);
+//        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+//        bitmap.compress(Bitmap.CompressFormat.JPEG, 90, bos);
+//        byte[] _bArray = bos.toByteArray();
+//        String image64 = Base64.encodeToString(_bArray, Base64.DEFAULT);
         // String imageBinary = "data:image/jpeg;base64,"+image64;
 
         // 画像付きツイート送信

@@ -1,6 +1,5 @@
 package jp.co.spajam.androidapp;
 
-import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -11,9 +10,11 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import jp.co.spajam.androidapp.broadcastreceiver.OnRotateBroadcastReceiver;
 import jp.co.spajam.androidapp.fragment.DefaultFragment;
 import jp.co.spajam.androidapp.fragment.HumanModeFragment;
 import jp.co.spajam.androidapp.fragment.PetModeFragment;
+import jp.co.spajam.androidapp.service.SensorService;
 
 
 public class MainActivity extends ActionBarActivity implements DefaultFragment.OnClickListener,HumanModeFragment.OnClickListener {
@@ -36,7 +37,6 @@ public class MainActivity extends ActionBarActivity implements DefaultFragment.O
 
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.add(R.id.base_layout, defaultFragment, "defaultFragment");
-        transaction.addToBackStack(null);
         transaction.commit();
 
         // センサー取得開始
@@ -77,18 +77,19 @@ public class MainActivity extends ActionBarActivity implements DefaultFragment.O
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         // Disable Back key
-        getFragmentManager().popBackStack();
-
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            return false;
+        if(0 != getFragmentManager().getBackStackEntryCount()) {
+            getFragmentManager().popBackStack();
+            if (keyCode == KeyEvent.KEYCODE_BACK) {
+                return false;
+            }
         }
-
         return super.onKeyDown(keyCode, event);
     }
 
     protected void onDestroy(){
         super.onDestroy();
         stopService(new Intent(this, SensorService.class));
+        unregisterReceiver(onRotateBroadcastReceiver);
     }
 
     @Override

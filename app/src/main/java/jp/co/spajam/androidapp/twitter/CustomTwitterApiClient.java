@@ -1,4 +1,4 @@
-package twitter;
+package jp.co.spajam.androidapp.twitter;
 
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Session;

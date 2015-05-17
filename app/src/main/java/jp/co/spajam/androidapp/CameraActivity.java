@@ -11,8 +11,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
 
+import com.twitter.sdk.android.Twitter;
+import com.twitter.sdk.android.core.TwitterAuthConfig;
+
+import io.fabric.sdk.android.Fabric;
 import jp.co.spajam.androidapp.data.Rotate;
-import twitter.TwitterManager;
+import jp.co.spajam.androidapp.twitter.TwitterManager;
 
 
 public class CameraActivity extends Activity {
@@ -27,8 +31,8 @@ public class CameraActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         // ツイートするための初期化
-        TwitterManager.initTwitter(this);
-
+        TwitterAuthConfig authConfig = new TwitterAuthConfig(TwitterManager.TWITTER_KEY, TwitterManager.TWITTER_SECRET);
+        Fabric.with(this, new Twitter(authConfig));
 
         setContentView(R.layout.activity_camera);
         // 画面をフルスクリーンに設定
@@ -52,7 +56,7 @@ public class CameraActivity extends Activity {
             if(type == Rotate.FAST){
                 count++;
                 Log.d("Test","COUNT" + count);
-                if(count >= 10){
+                if(count >= 2){
                     cameraView.takePicture();
                     count = 0;
 
