@@ -21,6 +21,7 @@ import jp.co.spajam.androidapp.twitter.TwitterManager;
 
 public class CameraActivity extends Activity {
 
+    private static final int COUNT_PHOTO = 1;
     public static final String ACTION_ROTATE = "ACTION_MOVE";
     public static final String EXTRA_ROTATE =  "EXTRA_MOVE";
 
@@ -56,7 +57,7 @@ public class CameraActivity extends Activity {
             if(type == Rotate.FAST){
                 count++;
                 Log.d("Test","COUNT" + count);
-                if(count >= 2){
+                if(count >= COUNT_PHOTO){
                     cameraView.takePicture();
                     count = 0;
 
