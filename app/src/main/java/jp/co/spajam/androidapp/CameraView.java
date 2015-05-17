@@ -110,6 +110,8 @@ public class CameraView extends SurfaceView
         TwitterManager.sendImageTweet(tweetText, imageBase64data, new Callback<Tweet>() {
             @Override
             public void success(Result<Tweet> result) {
+                // シャッター音を鳴らす
+                ringShutterSound(activity);
                 Log.i(TAG, "画像投稿成功");
             }
 
@@ -123,8 +125,8 @@ public class CameraView extends SurfaceView
     @Override
     public void onPictureTaken(byte[] data, Camera camera) {
 
-        // シャッター音を鳴らす
-        ringShutterSound(activity);
+//        // シャッター音を鳴らす
+//        ringShutterSound(activity);
 
         // byte data[] =>Bitmap bitmap =>String base64変換をする
         Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
