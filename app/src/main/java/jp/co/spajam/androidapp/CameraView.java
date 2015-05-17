@@ -36,6 +36,7 @@ public class CameraView extends SurfaceView
     private Camera camera = null;
     private static final String SDCARD_FOLDER = "/sdcard/CameraSample/";
     MediaPlayer mp = null;
+    Activity activity;
 
     private static String tweetMessage = "ゴロゴロ気持ちいいニャー";
 
@@ -43,11 +44,10 @@ public class CameraView extends SurfaceView
 
     public void takePicture(Activity activity, String tweetText){
 
+        this.activity = activity;
+
         // ツイート文を受け取る
         tweetMessage = tweetText;
-
-        // 音を鳴らす
-        ringShutterSound(activity);
 
         // カメラを撮って、撮れたらツイートする。
         camera.takePicture(null, null, CameraView.this);
@@ -122,6 +122,9 @@ public class CameraView extends SurfaceView
 
     @Override
     public void onPictureTaken(byte[] data, Camera camera) {
+
+        // シャッター音を鳴らす
+        ringShutterSound(activity);
 
         // byte data[] =>Bitmap bitmap =>String base64変換をする
         Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
