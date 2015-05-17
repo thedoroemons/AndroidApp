@@ -1,9 +1,13 @@
-package jp.co.spajam.androidapp;
+package jp.co.spajam.androidapp.broadcastreceiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+
+import jp.co.spajam.androidapp.CameraActivity;
+import jp.co.spajam.androidapp.MainActivity;
+import jp.co.spajam.androidapp.data.Rotate;
 
 public class OnRotateBroadcastReceiver extends BroadcastReceiver {
 

@@ -1,4 +1,6 @@
-package jp.co.spajam.androidapp;
+package jp.co.spajam.androidapp.listener;
+
+import jp.co.spajam.androidapp.data.Rotate;
 
 public interface OnRotate {
     /**

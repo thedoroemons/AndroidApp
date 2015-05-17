@@ -8,7 +8,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,7 +16,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.TimerTask;
 
-import jp.co.spajam.androidapp.RequestQueueHolder;
+import jp.co.spajam.androidapp.Const;
+import jp.co.spajam.androidapp.util.RequestQueueHolder;
 import jp.co.spajam.androidapp.data.Job;
 import jp.co.spajam.androidapp.listener.OnReceiveJob;
 
@@ -50,9 +50,13 @@ public class PollingWebAPITask extends TimerTask{
                     public void onResponse(JSONObject response) {
                         ArrayList<Job> jobList = new ArrayList<Job>();
                         try {
-                            JSONObject job = response.getJSONObject("job");
-                            Job jobData = new Job(job);
-                            jobList.add(jobData);
+                            if ( response.has("job") ) {
+                                JSONObject job = response.getJSONObject("job");
+                                Job jobData = new Job(job);
+                                if (jobData.getUser_id() == Const.USER_ID) {
+                                    jobList.add(jobData);
+                                }
+                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -91,7 +95,9 @@ public class PollingWebAPITask extends TimerTask{
                                 JSONObject jobObj = jobs.getJSONObject(i);
                                 JSONObject job = jobObj.getJSONObject("job");
                                 Job jobData = new Job(job);
-                                jobList.add(jobData);
+                                if ( jobData.getUser_id() == Const.USER_ID ) {
+                                    jobList.add(jobData);
+                                }
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

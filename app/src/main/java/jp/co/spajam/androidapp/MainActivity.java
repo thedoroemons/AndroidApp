@@ -1,6 +1,5 @@
 package jp.co.spajam.androidapp;
 
-import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -11,9 +10,11 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import jp.co.spajam.androidapp.broadcastreceiver.OnRotateBroadcastReceiver;
 import jp.co.spajam.androidapp.fragment.DefaultFragment;
 import jp.co.spajam.androidapp.fragment.HumanModeFragment;
 import jp.co.spajam.androidapp.fragment.PetModeFragment;
+import jp.co.spajam.androidapp.service.SensorService;
 
 
 public class MainActivity extends ActionBarActivity implements DefaultFragment.OnClickListener,HumanModeFragment.OnClickListener {
