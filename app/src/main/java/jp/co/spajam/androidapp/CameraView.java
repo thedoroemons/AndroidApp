@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import twitter.TwitterManager;
+import jp.co.spajam.androidapp.twitter.TwitterManager;
 
 /**
  * Created by masaharu on 2015/05/16.

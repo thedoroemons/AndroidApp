@@ -1,4 +1,4 @@
-package twitter;
+package jp.co.spajam.androidapp.twitter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -26,15 +26,6 @@ public class TwitterManager {
     public static final String TWITTER_KEY = "bDfewBtCuKTvXB2nFDLD5TsNv";
     public static final String TWITTER_SECRET = "dSoQt0jl8aV1k0EPdu9M5fuFUQ4TYQfMpyNfBazkPBZhbWqA5m";
 
-    /**
-     * TwitterLibraryの初期化処理
-     * 利用するActivityのsetContentView前に行う
-     * @param context
-     */
-    public static void initTwitter(Context context) {
-        TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
-        Fabric.with(context, new Twitter(authConfig));
-    }
 
     /**
      * ユーザーを指定してツイートリストを取得する

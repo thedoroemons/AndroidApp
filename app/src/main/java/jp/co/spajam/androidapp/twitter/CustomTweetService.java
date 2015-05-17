@@ -1,4 +1,4 @@
-package twitter;
+package jp.co.spajam.androidapp.twitter;
 
 import com.twitter.sdk.android.core.models.Tweet;
 
@@ -7,7 +7,6 @@ import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.POST;
 import retrofit.http.Part;
-import twitter.MediaEntity;
 
 /**
  * Created by fuji on 2015/05/16.

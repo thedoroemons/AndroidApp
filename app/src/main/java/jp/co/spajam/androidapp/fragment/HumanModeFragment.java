@@ -11,11 +11,19 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.twitter.sdk.android.core.Callback;
+import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.core.TwitterCore;
+import com.twitter.sdk.android.core.TwitterException;
+import com.twitter.sdk.android.core.models.Tweet;
+import com.twitter.sdk.android.tweetui.TimelineResult;
 import com.twitter.sdk.android.tweetui.TweetTimelineListAdapter;
 import com.twitter.sdk.android.tweetui.TweetUi;
 import com.twitter.sdk.android.tweetui.UserTimeline;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 import io.fabric.sdk.android.Fabric;
 import jp.co.spajam.androidapp.MainActivity;
@@ -23,7 +31,7 @@ import jp.co.spajam.androidapp.util.PostJob;
 import jp.co.spajam.androidapp.R;
 import jp.co.spajam.androidapp.data.Job;
 import jp.co.spajam.androidapp.Util;
-import twitter.TwitterManager;
+import jp.co.spajam.androidapp.twitter.TwitterManager;
 
 public class HumanModeFragment extends Fragment {
 
@@ -31,6 +39,8 @@ public class HumanModeFragment extends Fragment {
     private PostJob postJob;
 
     private ListView mListView;
+    private TweetTimelineListAdapter adapter;
+    private Timer mTimer;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -95,11 +105,22 @@ public class HumanModeFragment extends Fragment {
 
         String name = Util.getSpPetAccountName(getActivity());
         final UserTimeline userTimeline = new UserTimeline.Builder().screenName(name).build();
-        final TweetTimelineListAdapter adapter = new TweetTimelineListAdapter(getActivity(), userTimeline);
+        adapter = new TweetTimelineListAdapter(getActivity(), userTimeline);
 
         mListView.setAdapter(adapter);
+
+        TweetRefreshTask task = new TweetRefreshTask();
+        mTimer = new Timer(true);
+        //10秒ごとにリストをリフレッシュする。
+        mTimer.schedule(task, 10000, 10000);
+
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        mTimer.cancel();
+    }
 
     /**
      * リスナーを追加する
@@ -118,5 +139,24 @@ public class HumanModeFragment extends Fragment {
 
     public interface OnClickListener {
         void onClickMode(@IdRes int id);
+    }
+
+    //リストをリフレッシュするためのタスク
+    class TweetRefreshTask extends TimerTask {
+        @Override
+        public void run() {
+            adapter.refresh(new Callback<TimelineResult<Tweet>>() {
+                @Override
+                public void success(Result<TimelineResult<Tweet>> result) {
+                    Toast.makeText(getActivity(), "refresh sccess", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void failure(TwitterException e) {
+
+                    Toast.makeText(getActivity(), "refresh error", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 }

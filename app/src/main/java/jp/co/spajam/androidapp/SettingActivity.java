@@ -1,11 +1,8 @@
 package jp.co.spajam.androidapp;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -16,15 +13,16 @@ import android.widget.Toast;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
+import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 import com.twitter.sdk.android.core.models.Tweet;
 
-import java.io.ByteArrayOutputStream;
 import java.util.List;
 
-import twitter.TwitterManager;
+import io.fabric.sdk.android.Fabric;
+import jp.co.spajam.androidapp.twitter.TwitterManager;
 
 
 public class SettingActivity extends ActionBarActivity implements View.OnClickListener{
@@ -40,7 +38,8 @@ public class SettingActivity extends ActionBarActivity implements View.OnClickLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        TwitterManager.initTwitter(this);
+        TwitterAuthConfig authConfig = new TwitterAuthConfig(TwitterManager.TWITTER_KEY, TwitterManager.TWITTER_SECRET);
+        Fabric.with(this, new Twitter(authConfig));
         setContentView(R.layout.activity_setting);
 
         //ログインアカウント名
