@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -47,7 +48,7 @@ public class HumanModeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_human_mode, container, false);
         postJob = new PostJob(getActivity());
 
-        Button lightBtn = (Button)view.findViewById(R.id.btn_light);
+        ImageButton lightBtn = (ImageButton)view.findViewById(R.id.btn_light);
         lightBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -60,7 +61,7 @@ public class HumanModeFragment extends Fragment {
             }
         });
 
-        Button voiceBtn = (Button)view.findViewById(R.id.btn_voice);
+        ImageButton voiceBtn = (ImageButton)view.findViewById(R.id.btn_voice);
         voiceBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -71,7 +72,7 @@ public class HumanModeFragment extends Fragment {
             }
         });
 
-        Button vibBtn = (Button)view.findViewById(R.id.btn_vib);
+        ImageButton vibBtn = (ImageButton)view.findViewById(R.id.btn_vib);
         vibBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
