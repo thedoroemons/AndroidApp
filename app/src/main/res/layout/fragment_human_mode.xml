@@ -7,42 +7,53 @@
         android:id="@+id/list"
         android:layout_above="@+id/layout_button"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></ListView>
+        android:layout_height="match_parent"
+        />
 
     <LinearLayout
         android:id="@+id/layout_button"
         android:orientation="horizontal"
         android:gravity="center"
         android:layout_alignParentBottom="true"
+        android:background="@color/light_gray"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="48dp">
 
-        <Button
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+        <ImageButton
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:text=""
-            android:layout_margin="10dp"
             android:id="@+id/btn_voice"
-            android:background="@drawable/voice"
-            android:layout_below="@+id/btn_light"
+            android:layout_weight="1"
+            android:src="@drawable/voice"
+            android:scaleType="fitCenter"
+            android:background="@drawable/button_voice"
            />
 
-        <Button
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_margin="10dp"
+        <ImageButton
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:text=""
-            android:background="@drawable/vib"
+            android:src="@drawable/vib"
             android:id="@+id/btn_vib"
+            android:layout_weight="1"
+
+            android:scaleType="fitCenter"
+            android:background="@drawable/button_voice"
              />
 
-        <Button
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+        <ImageButton
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:text=""
-            android:layout_margin="10dp"
-            android:background="@drawable/light"
+            android:src="@drawable/light"
             android:id="@+id/btn_light"
+            android:layout_weight="1"
+
+            android:scaleType="fitCenter"
+            android:background="@drawable/button_voice"
              />
     </LinearLayout>
 </RelativeLayout>
