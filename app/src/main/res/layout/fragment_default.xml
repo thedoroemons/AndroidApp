@@ -22,12 +22,14 @@
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:gravity="center"
+                android:gravity="center_vertical"
                 android:layout_height="match_parent">
 
                 <Button
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginLeft="30dp"
+                    android:duplicateParentState="true"
                     android:background="@drawable/human"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
@@ -36,6 +38,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:duplicateParentState="true"
                     android:text="ご主人"
                     android:textSize="40dp"
                     android:id="@+id/textView" />
@@ -53,13 +57,15 @@
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:gravity="center"
+                android:gravity="center_vertical"
                 android:layout_height="match_parent">
 
                 <Button
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginLeft="30dp"
                     android:text=""
+                    android:duplicateParentState="true"
                     android:background="@drawable/pet"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
@@ -68,7 +74,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
                     android:text="ペット"
+                    android:duplicateParentState="true"
                     android:textSize="40dp"
                     android:id="@+id/textView2" />
             </LinearLayout>
@@ -86,21 +94,24 @@
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:gravity="center"
+                android:gravity="center_vertical"
                 android:layout_height="match_parent">
 
                 <Button
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:text=""
-                    android:layout_marginRight="5dp"
+                    android:duplicateParentState="true"
+                    android:layout_marginLeft="30dp"
                     android:background="@drawable/setting"
                     />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="設定"
+                    android:text="設 定"
+                    android:layout_marginLeft="20dp"
+                    android:duplicateParentState="true"
                     android:textSize="40dp"
                     android:id="@+id/textView3" />
             </LinearLayout>
