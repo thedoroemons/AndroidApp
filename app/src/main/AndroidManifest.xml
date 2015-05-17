@@ -69,7 +69,9 @@
 
         <activity
             android:name=".SettingActivity"
-            android:label="@string/title_activity_setting" >
+            android:label="@string/title_activity_setting"
+            android:screenOrientation="portrait"
+            >
         </activity>
     </application>
 
