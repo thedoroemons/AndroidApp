@@ -1,12 +1,14 @@
-package jp.co.spajam.androidapp;
+package jp.co.spajam.androidapp.util;
 
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.util.Log;
 
 import java.util.List;
+
+import jp.co.spajam.androidapp.data.Rotate;
+import jp.co.spajam.androidapp.listener.OnRotate;
 
 /**
  * 端末の動きを監視するクラス

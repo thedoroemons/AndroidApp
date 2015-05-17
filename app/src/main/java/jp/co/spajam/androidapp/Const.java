@@ -7,4 +7,5 @@ public class Const {
 
     public static final String SP_KEY = "spajam";
     public static final String SP_KEY_PET_ACCOUNT_NAME = "pet_account_name";
+    public static final int USER_ID = 1; // WebAPIにアクセスするときのUserID
 }

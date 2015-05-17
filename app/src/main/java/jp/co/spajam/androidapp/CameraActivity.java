@@ -11,6 +11,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
 
+import jp.co.spajam.androidapp.data.Rotate;
+
 
 public class CameraActivity extends Activity {
 

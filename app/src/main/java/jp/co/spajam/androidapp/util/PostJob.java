@@ -1,4 +1,4 @@
-package jp.co.spajam.androidapp;
+package jp.co.spajam.androidapp.util;
 
 import android.content.Context;
 import android.util.Log;
@@ -9,14 +9,14 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import jp.co.spajam.androidapp.Const;
+
 public class PostJob {
 
-    private static final int userId = 1;
     private Context context;
 
     public PostJob(Context context){
@@ -56,7 +56,7 @@ public class PostJob {
                 JSONObject body = new JSONObject();
                 try {
                     body.put("job_id",String.valueOf(jobId));
-                    body.put("user_id",String.valueOf(userId));
+                    body.put("user_id",String.valueOf(Const.USER_ID));
                     body.put("message_id",String.valueOf(messageId));
                 } catch (JSONException e) {
                     e.printStackTrace();

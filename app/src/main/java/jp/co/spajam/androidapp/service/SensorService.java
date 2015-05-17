@@ -1,12 +1,15 @@
-package jp.co.spajam.androidapp;
+package jp.co.spajam.androidapp.service;
 
 import android.app.Service;
 import android.content.Intent;
 import android.hardware.SensorManager;
 import android.os.IBinder;
-import android.util.Log;
 
-public class SensorService extends Service implements OnRotate{
+import jp.co.spajam.androidapp.listener.OnRotate;
+import jp.co.spajam.androidapp.util.SensorMonitor;
+import jp.co.spajam.androidapp.data.Rotate;
+
+public class SensorService extends Service implements OnRotate {
 
     private SensorMonitor sensorMonitor;
 

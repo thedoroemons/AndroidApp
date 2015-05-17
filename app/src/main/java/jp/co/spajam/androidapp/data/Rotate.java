@@ -1,4 +1,4 @@
-package jp.co.spajam.androidapp;
+package jp.co.spajam.androidapp.data;
 
 import java.io.Serializable;
 
