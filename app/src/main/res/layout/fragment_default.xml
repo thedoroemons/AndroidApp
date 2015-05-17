@@ -2,55 +2,114 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/img"
+    android:background="#fff"
     tools:context=".MainActivity">
 
-    <TextView
-        android:text="アプリ名？？？？？"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="30dp"
-        android:layout_centerInParent="true"
-        android:textColor="#FFFFFF"
-        android:layout_centerHorizontal="true"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></RelativeLayout>
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:gravity="center"
         android:layout_alignParentBottom="true"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <Button
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:text=""
-            android:layout_margin="10dp"
-            android:id="@+id/humanbtn"
-            android:background="@drawable/human"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:background="@drawable/layout_style"
+            android:layout_weight="3"
+            android:layout_height="match_parent">
 
-        <Button
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:text=""
-            android:layout_margin="10dp"
-            android:id="@+id/petbtn"
-            android:background="@drawable/pet"
-            android:layout_centerHorizontal="true"
-            android:layout_above="@+id/humanbtn" />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:layout_height="match_parent">
 
-        <Button
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:text=""
-            android:layout_margin="10dp"
-            android:id="@+id/settingbtn"
-            android:background="@drawable/setting"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@+id/humanbtn" />
+                <Button
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:id="@+id/humanbtn"
+                    android:background="@drawable/human"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ご主人"
+                    android:textSize="40dp"
+                    android:id="@+id/textView" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/layout_style"
+            android:layout_weight="3"
+            >
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:text=""
+                    android:id="@+id/petbtn"
+                    android:background="@drawable/pet"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ペット"
+                    android:textSize="40dp"
+                    android:id="@+id/textView2" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/layout_style"
+
+            android:layout_weight="3"
+            >
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:text=""
+                    android:layout_marginRight="5dp"
+                    android:id="@+id/settingbtn"
+                    android:background="@drawable/setting"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="設定"
+                    android:textSize="40dp"
+                    android:id="@+id/textView3" />
+            </LinearLayout>
+        </RelativeLayout>
+
     </LinearLayout>
 
 </RelativeLayout>
