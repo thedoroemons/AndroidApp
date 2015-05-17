@@ -1,9 +1,12 @@
 package jp.co.spajam.androidapp;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.hardware.Camera;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -32,11 +35,61 @@ public class CameraView extends SurfaceView
     private SurfaceHolder holder = null;
     private Camera camera = null;
     private static final String SDCARD_FOLDER = "/sdcard/CameraSample/";
+    MediaPlayer mp = null;
 
-    public void takePicture(){
+    private static String tweetMessage = "ゴロゴロ気持ちいいニャー";
+
+    private static final float VOICE_RATE = 3/4f;
+
+    public void takePicture(Activity activity, String tweetText){
+
+        // ツイート文を受け取る
+        tweetMessage = tweetText;
+
+        // 音を鳴らす
+        ringShutterSound(activity);
+
+        // カメラを撮って、撮れたらツイートする。
         camera.takePicture(null, null, CameraView.this);
     }
 
+    private void ringShutterSound(Activity activity){
+
+        // AudioManagerを取得する
+        final AudioManager am = (AudioManager)activity.getSystemService(Context.AUDIO_SERVICE);
+
+        // 現在の音量を取得する
+        // final int ringVolume = am.getStreamVolume(AudioManager.STREAM_MUSIC);
+        // ストリームごとの最大音量を取得する
+        int ringMaxVolume = am.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+
+        // 音量を設定する
+        am.setStreamVolume(AudioManager.STREAM_MUSIC, (int) (ringMaxVolume * VOICE_RATE), 0);
+
+        //音声再生
+        mp = MediaPlayer.create(activity, R.raw.shutter);
+
+        if (mp.isPlaying()) { //再生中
+            mp.stop();
+            try {
+                mp.prepare();
+            } catch (IllegalStateException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else { //停止中
+            try {
+                mp.prepare();
+            } catch (IllegalStateException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            mp.start();
+        }
+    }
 
     public CameraView(Context context) {
         super(context);
@@ -53,8 +106,8 @@ public class CameraView extends SurfaceView
     }
 
     // SettingActivityより拝借
-    public void sendImageTweet(String imageBase64data) {
-        TwitterManager.sendImageTweet("画像投稿テストかめら", imageBase64data, new Callback<Tweet>() {
+    public void sendImageTweet(String tweetText, String imageBase64data) {
+        TwitterManager.sendImageTweet(tweetText, imageBase64data, new Callback<Tweet>() {
             @Override
             public void success(Result<Tweet> result) {
                 Log.i(TAG, "画像投稿成功");
@@ -73,17 +126,11 @@ public class CameraView extends SurfaceView
         // byte data[] =>Bitmap bitmap =>String base64変換をする
         Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
 
-
         String image64 = TwitterManager.encodeTobase64(bitmap);
-//        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-//        bitmap.compress(Bitmap.CompressFormat.JPEG, 90, bos);
-//        byte[] _bArray = bos.toByteArray();
-//        String image64 = Base64.encodeToString(_bArray, Base64.DEFAULT);
-        // String imageBinary = "data:image/jpeg;base64,"+image64;
 
         // 画像付きツイート送信
         //try {
-            sendImageTweet(image64);
+            sendImageTweet(tweetMessage, image64);
         //}catch (Exception e){
             //認証が済んでいない
         //}
