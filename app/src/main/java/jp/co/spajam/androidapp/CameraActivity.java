@@ -11,6 +11,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
 
+import jp.co.spajam.androidapp.data.Rotate;
+import twitter.TwitterManager;
+
 
 public class CameraActivity extends Activity {
 
@@ -22,6 +25,11 @@ public class CameraActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // ツイートするための初期化
+        TwitterManager.initTwitter(this);
+
+
         setContentView(R.layout.activity_camera);
         // 画面をフルスクリーンに設定
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);

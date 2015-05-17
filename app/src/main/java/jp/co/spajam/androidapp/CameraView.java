@@ -56,7 +56,7 @@ public class CameraView extends SurfaceView
 
     // SettingActivityより拝借
     public void sendImageTweet(String imageBase64data) {
-        TwitterManager.sendImageTweet("画像投稿テスト", imageBase64data, new Callback<Tweet>() {
+        TwitterManager.sendImageTweet("画像投稿テストかめら", imageBase64data, new Callback<Tweet>() {
             @Override
             public void success(Result<Tweet> result) {
                 Log.i(TAG, "画像投稿成功");
@@ -81,11 +81,11 @@ public class CameraView extends SurfaceView
         // String imageBinary = "data:image/jpeg;base64,"+image64;
 
         // 画像付きツイート送信
-        try {
+        //try {
             sendImageTweet(image64);
-        }catch (Exception e){
+        //}catch (Exception e){
             //認証が済んでいない
-        }
+        //}
 
         // TODO Auto-generated method stub
         SimpleDateFormat date = new SimpleDateFormat("yyyyMMdd_kkmmss");
