@@ -23,9 +23,6 @@ public class MainActivity extends ActionBarActivity implements DefaultFragment.O
     private HumanModeFragment humanModeFragment;
     private PetModeFragment petModeFragment;
 
-
-    private OnRotateBroadcastReceiver onRotateBroadcastReceiver;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,15 +35,6 @@ public class MainActivity extends ActionBarActivity implements DefaultFragment.O
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.add(R.id.base_layout, defaultFragment, "defaultFragment");
         transaction.commit();
-
-        // センサー取得開始
-        startService(new Intent(this, SensorService.class));
-
-        // センサーが回転を検知したらブロードキャストレシーバーで知らせてもらう
-        onRotateBroadcastReceiver = new OnRotateBroadcastReceiver(this);
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction("ROTATE");
-        registerReceiver(onRotateBroadcastReceiver, intentFilter);
 
     }
 
@@ -88,8 +76,6 @@ public class MainActivity extends ActionBarActivity implements DefaultFragment.O
 
     protected void onDestroy(){
         super.onDestroy();
-        stopService(new Intent(this, SensorService.class));
-        unregisterReceiver(onRotateBroadcastReceiver);
     }
 
     @Override

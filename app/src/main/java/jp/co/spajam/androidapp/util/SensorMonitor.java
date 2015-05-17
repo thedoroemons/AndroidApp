@@ -138,11 +138,11 @@ public class SensorMonitor implements SensorEventListener{
 
             Rotate rotate = null;
             long currentUnixTime = System.currentTimeMillis();
-            if ( gyroValue > 7.5 ){
+            if ( gyroValue > 1.5 ){
                 rotate = new Rotate(gyroValues, gyroValue, Rotate.FAST);
-            } else if (gyroValue > 5 ){
+            } else if (gyroValue > 1 ){
                 rotate =  new Rotate(gyroValues,gyroValue,Rotate.NORMAL);
-            } else if ( gyroValue > 2.5){
+            } else if ( gyroValue > 0.5){
                 rotate =  new Rotate(gyroValues,gyroValue,Rotate.SLOW);
             }
 

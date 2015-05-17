@@ -12,8 +12,10 @@ import android.view.ViewGroup;
 
 import jp.co.spajam.androidapp.CameraActivity;
 import jp.co.spajam.androidapp.broadcastreceiver.OnReceiveJobBroadcastReceiver;
+import jp.co.spajam.androidapp.broadcastreceiver.OnRotateBroadcastReceiver;
 import jp.co.spajam.androidapp.service.PetPollingWebAPIService;
 import jp.co.spajam.androidapp.R;
+import jp.co.spajam.androidapp.service.SensorService;
 
 
 public class PetModeFragment extends Fragment {
@@ -21,6 +23,7 @@ public class PetModeFragment extends Fragment {
     MediaPlayer mp = null;
     private Camera camera = null;
     private OnReceiveJobBroadcastReceiver onReceiveJobBroadcastReceiver;
+    private OnRotateBroadcastReceiver onRotateBroadcastReceiver;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -43,6 +46,15 @@ public class PetModeFragment extends Fragment {
         intentFilter.addAction("JOBS");
         getActivity().registerReceiver(onReceiveJobBroadcastReceiver, intentFilter);
 
+        // センサー取得開始
+        getActivity().startService(new Intent(getActivity(), SensorService.class));
+
+        // センサーが回転を検知したらブロードキャストレシーバーで知らせてもらう
+        onRotateBroadcastReceiver = new OnRotateBroadcastReceiver(this);
+        IntentFilter rotateIntentFilter = new IntentFilter();
+        intentFilter.addAction("ROTATE");
+        getActivity().registerReceiver(onRotateBroadcastReceiver, rotateIntentFilter);
+
         return view;
     }
 
@@ -51,6 +63,8 @@ public class PetModeFragment extends Fragment {
         super.onDestroy();
         getActivity().stopService(new Intent(getActivity(), PetPollingWebAPIService.class));
         getActivity().unregisterReceiver(onReceiveJobBroadcastReceiver);
+        getActivity().stopService(new Intent(getActivity(), SensorService.class));
+        getActivity().unregisterReceiver(onRotateBroadcastReceiver);
     }
 
     @Override
