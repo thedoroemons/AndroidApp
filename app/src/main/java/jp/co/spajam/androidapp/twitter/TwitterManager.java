@@ -1,6 +1,5 @@
 package jp.co.spajam.androidapp.twitter;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Base64;
 
@@ -8,7 +7,6 @@ import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterApiClient;
-import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.core.TwitterCore;
 import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.models.Tweet;
@@ -16,8 +14,6 @@ import com.twitter.sdk.android.core.services.StatusesService;
 
 import java.io.ByteArrayOutputStream;
 import java.util.List;
-
-import io.fabric.sdk.android.Fabric;
 
 /**
  * Created by fuji on 2015/05/16.

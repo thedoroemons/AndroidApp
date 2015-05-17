@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.hardware.Camera;
-import android.util.Base64;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -15,7 +14,6 @@ import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.models.Tweet;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -56,7 +54,7 @@ public class CameraView extends SurfaceView
 
     // SettingActivityより拝借
     public void sendImageTweet(String imageBase64data) {
-        TwitterManager.sendImageTweet("画像投稿テスト", imageBase64data, new Callback<Tweet>() {
+        TwitterManager.sendImageTweet("画像投稿テストかめら", imageBase64data, new Callback<Tweet>() {
             @Override
             public void success(Result<Tweet> result) {
                 Log.i(TAG, "画像投稿成功");
@@ -74,18 +72,21 @@ public class CameraView extends SurfaceView
 
         // byte data[] =>Bitmap bitmap =>String base64変換をする
         Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 90, bos);
-        byte[] _bArray = bos.toByteArray();
-        String image64 = Base64.encodeToString(_bArray, Base64.DEFAULT);
+
+
+        String image64 = TwitterManager.encodeTobase64(bitmap);
+//        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+//        bitmap.compress(Bitmap.CompressFormat.JPEG, 90, bos);
+//        byte[] _bArray = bos.toByteArray();
+//        String image64 = Base64.encodeToString(_bArray, Base64.DEFAULT);
         // String imageBinary = "data:image/jpeg;base64,"+image64;
 
         // 画像付きツイート送信
-        try {
+        //try {
             sendImageTweet(image64);
-        }catch (Exception e){
+        //}catch (Exception e){
             //認証が済んでいない
-        }
+        //}
 
         // TODO Auto-generated method stub
         SimpleDateFormat date = new SimpleDateFormat("yyyyMMdd_kkmmss");

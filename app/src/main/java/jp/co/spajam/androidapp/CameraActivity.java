@@ -11,11 +11,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
 
+import com.twitter.sdk.android.Twitter;
+import com.twitter.sdk.android.core.TwitterAuthConfig;
+
+import io.fabric.sdk.android.Fabric;
 import jp.co.spajam.androidapp.data.Rotate;
+import jp.co.spajam.androidapp.twitter.TwitterManager;
 
 
 public class CameraActivity extends Activity {
 
+    private static final int COUNT_PHOTO = 1;
     public static final String ACTION_ROTATE = "ACTION_MOVE";
     public static final String EXTRA_ROTATE =  "EXTRA_MOVE";
 
@@ -24,6 +30,11 @@ public class CameraActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // ツイートするための初期化
+        TwitterAuthConfig authConfig = new TwitterAuthConfig(TwitterManager.TWITTER_KEY, TwitterManager.TWITTER_SECRET);
+        Fabric.with(this, new Twitter(authConfig));
+
         setContentView(R.layout.activity_camera);
         // 画面をフルスクリーンに設定
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -46,7 +57,7 @@ public class CameraActivity extends Activity {
             if(type == Rotate.FAST){
                 count++;
                 Log.d("Test","COUNT" + count);
-                if(count >= 10){
+                if(count >= COUNT_PHOTO){
                     cameraView.takePicture();
                     count = 0;
 
