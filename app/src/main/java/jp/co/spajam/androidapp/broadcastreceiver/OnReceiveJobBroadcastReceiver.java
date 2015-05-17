@@ -49,7 +49,7 @@ public class OnReceiveJobBroadcastReceiver extends BroadcastReceiver {
                     // TODO 音を鳴らす
                     Log.d("job","音を鳴らす");
                     //音声再生
-                    mp = MediaPlayer.create(petModeFragment.getActivity(), R.raw.sound);
+                    mp = MediaPlayer.create(petModeFragment.getActivity(), R.raw.ota);
 
                     if (mp.isPlaying()) { //再生中
                         mp.stop();
