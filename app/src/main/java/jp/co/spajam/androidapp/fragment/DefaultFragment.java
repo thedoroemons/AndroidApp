@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import jp.co.spajam.androidapp.MainActivity;
@@ -22,7 +23,7 @@ public class DefaultFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_default, container, false);
 
-        Button humanBtn = (Button)view.findViewById(R.id.humanbtn);
+        RelativeLayout humanBtn = (RelativeLayout)view.findViewById(R.id.humanbtn);
         humanBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -32,7 +33,7 @@ public class DefaultFragment extends Fragment {
             }
         });
 
-        Button petBtn = (Button)view.findViewById(R.id.petbtn);
+        RelativeLayout petBtn = (RelativeLayout)view.findViewById(R.id.petbtn);
         petBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -42,7 +43,7 @@ public class DefaultFragment extends Fragment {
             }
         });
 
-        Button settingBtn = (Button)view.findViewById(R.id.settingbtn);
+        RelativeLayout settingBtn = (RelativeLayout)view.findViewById(R.id.settingbtn);
         settingBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
